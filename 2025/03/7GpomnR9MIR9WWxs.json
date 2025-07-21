@@ -1,0 +1,2581 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "parse date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "guests": {
+      "main": [
+        [
+          {
+            "node": "suitableTables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Available slots": {
+      "main": [
+        [
+          {
+            "node": "availabilityOnRequestedTime",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "suitableTables": {
+      "main": [
+        [
+          {
+            "node": "Available slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "availabilityOnRequestedTime": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Respond time is available",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond alternative times",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parse date": {
+      "main": [
+        [
+          {
+            "node": "parseTime",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parseTime": {
+      "main": [
+        [
+          {
+            "node": "guests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "suitableTables1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formattedDate": {
+      "main": [
+        [
+          {
+            "node": "parseTime1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "suitableTables1": {
+      "main": [
+        [
+          {
+            "node": "parse date1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parse date1": {
+      "main": [
+        [
+          {
+            "node": "formattedDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parseTime1": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generateRecords": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "generateRecords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-03-05T12:34:01.918Z",
+  "id": "7GpomnR9MIR9WWxs",
+  "meta": null,
+  "name": "Resturant Reservation AI",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "62d320bb-788e-4dd8-bae7-0316c9adee65",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -3120,
+        -160
+      ],
+      "id": "a24c7710-af5d-4707-b31b-127a5dc15fee",
+      "name": "Webhook",
+      "webhookId": "62d320bb-788e-4dd8-bae7-0316c9adee65"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f67ad9b5-e57a-48ee-ae88-8a5943926f57",
+              "leftValue": "={{ $json.body.message.type }}",
+              "rightValue": "tool-calls",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2760,
+        -160
+      ],
+      "id": "d3850097-102c-4ebe-acdc-10f99a9b4660",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f579f6c-447f-4a04-81c7-0e652ceec49d",
+              "name": "guests",
+              "value": "={{ $('Webhook').item.json.body.message.toolCalls[0].function.arguments.guests }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1660,
+        -460
+      ],
+      "id": "4e600254-8522-4c70-8e0a-dff482d86856",
+      "name": "guests"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appxtRRlb5NSZiaxQ",
+          "mode": "list",
+          "cachedResultName": "Restaurant_Management",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAxvB06ZIIZMnUA",
+          "mode": "list",
+          "cachedResultName": "Table_Availability",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ/tblAxvB06ZIIZMnUA"
+        },
+        "filterByFormula": "=AND(\n{Status} = 'Available',\n{Date} = '{{ $('parse date').first().json.message.content.date }}',\nOR({{ $json.tableFilter }})\n)",
+        "returnAll": false,
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Time Slot"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1040,
+        -460
+      ],
+      "id": "4c4ec97d-ceee-4126-91c6-343ea19357f4",
+      "name": "Available slots",
+      "notesInFlow": true,
+      "credentials": {
+        "airtableOAuth2Api": {
+          "id": "jPe2p1a7mzUK63WG",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const guests = $input.first().json.guests\n\n// Get suitable tables based on party size\nfunction getSuitableTables(guests) {\n    if (guests <= 2) return ['T1', 'T2'];\n    if (guests <= 4) return ['T3', 'T4'];\n    if (guests <= 6) return ['T5'];\n    return [];\n}\n\nconst suitableTables = getSuitableTables(guests);\nconst tableFilter = `OR(${suitableTables.map(table => `{Table ID} = '${table}'`).join(', ')})`;\n\n\n\n\nreturn {json: {\n  suitableTables,\n  tableFilter\n}};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1360,
+        -460
+      ],
+      "id": "89990722-b043-44c7-8b1c-697d74502f96",
+      "name": "suitableTables",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const requestedTime = $('parseTime').first().json.requestedTime;\nconst availableSlots = $('Available slots').all().map(item => item.json);\nconst LUNCH_END = \"13:30\";\nconst DINNER_END = \"21:00\";\nconst isLunchPeriod = requestedTime <= LUNCH_END;\n\nfunction getNextSlot(time) {\n    const [hours, minutes] = time.split(':').map(Number);\n    const date = new Date();\n    date.setHours(hours, minutes + 30, 0, 0); // Add 30 minutes\n    const nextHours = String(date.getHours()).padStart(2, '0');\n    const nextMinutes = String(date.getMinutes()).padStart(2, '0');\n    return `${nextHours}:${nextMinutes}`;\n}\n\n// For debugging\nconsole.log('Initial available slots:', availableSlots);\n\n// Filter slots by period first\nconst periodSlots = availableSlots.filter(slot => {\n    if (isLunchPeriod) {\n        return slot['Time Slot'] <= LUNCH_END;\n    } else {\n        return slot['Time Slot'] > LUNCH_END && slot['Time Slot'] <= DINNER_END;\n    }\n});\n\nconsole.log('Period slots:', periodSlots);\n\n// Generate potential starting times within the period\nconst potentialTimes = [...new Set(periodSlots.map(slot => slot['Time Slot']))].sort();\n\nconsole.log('Potential times:', potentialTimes);\n\n// Adjust validTimes to include times where there are no explicit unavailabilities in the next 4 slots\nconst validTimes = potentialTimes.filter(time => {\n    // Generate required slots starting from 'time'\n    let requiredSlots = [time];\n    let nextSlot = time;\n    const endTime = isLunchPeriod ? LUNCH_END : DINNER_END;\n\n    for (let i = 0; i < 3; i++) { // Need up to 3 more slots\n        nextSlot = getNextSlot(nextSlot);\n        if (nextSlot > endTime) {\n            // Reached end of period; slots beyond endTime don't exist, so we consider them acceptable\n            break;\n        }\n        requiredSlots.push(nextSlot);\n    }\n\n    // Now check if there is any explicit unavailability for these slots for any table\n    // We assume that a slot is unavailable if it exists in the data and the table is not available\n    // If the slot does not exist, we consider it acceptable (e.g., beyond closing time)\n\n    // Get tables available at the initial time\n    const tablesAtTime = periodSlots\n        .filter(slot => slot['Time Slot'] === time)\n        .map(slot => slot['Table ID']);\n    if (tablesAtTime.length === 0) {\n        // No tables available at the initial time\n        return false;\n    }\n\n    // Check for each table if there's any explicit unavailability in the required slots\n    for (const tableId of tablesAtTime) {\n        let isTableValid = true;\n        for (const timeSlot of requiredSlots) {\n            if (timeSlot <= endTime) {\n                // Check if the slot exists in periodSlots for this table\n                const slotExists = periodSlots.some(slot =>\n                    slot['Time Slot'] === timeSlot &&\n                    slot['Table ID'] === tableId\n                );\n                if (!slotExists) {\n                    // Slot is explicitly unavailable (since it exists in the period but not for this table)\n                    isTableValid = false;\n                    break;\n                }\n                // Slot exists and is available\n            }\n        }\n        if (isTableValid) {\n            // Found a table with no explicit unavailability\n            return true;\n        }\n    }\n    // No table is valid for the required slots\n    return false;\n});\n\nconsole.log('Valid times with available slots:', validTimes);\n\n// **Check if requestedTime is within valid times**\nif (!validTimes.includes(requestedTime)) {\n    console.log(`Requested time ${requestedTime} is not within valid times.`);\n    return {json: {\n        available: false,\n        requestedTime,\n        alternativeTimes:validTimes,\n        message: 'Requested time is not available',\n        period: isLunchPeriod ? 'lunch' : 'dinner'\n    }};\n}\n\n// Get initial tables available at the requested time within the period\nconst initialTables = periodSlots\n    .filter(slot => slot['Time Slot'] === requestedTime)\n    .map(slot => slot['Table ID']);\n\nconsole.log('Initial tables at requested time:', initialTables);\n\n// Generate required slots starting from requestedTime\nlet requiredSlots = [requestedTime];\nlet nextSlot = requestedTime;\nconst endTime = isLunchPeriod ? LUNCH_END : DINNER_END;\n\nfor (let i = 0; i < 3; i++) { // Need up to 3 more slots\n    nextSlot = getNextSlot(nextSlot);\n    if (nextSlot > endTime) {\n        // Reached end of period\n        break;\n    }\n    requiredSlots.push(nextSlot);\n}\n\nconsole.log('Required slots:', requiredSlots);\n\n// Check table availability for required slots\nconst availableTablesWithSlots = initialTables.filter(tableId => {\n    for (const timeSlot of requiredSlots) {\n        if (timeSlot <= endTime) {\n            const slotExists = periodSlots.some(slot =>\n                slot['Time Slot'] === timeSlot &&\n                slot['Table ID'] === tableId\n            );\n            if (!slotExists) {\n                // Slot is explicitly unavailable\n                return false;\n            }\n            // Slot exists and is available\n        }\n    }\n    return true; // Table is available for all required slots\n});\n\nconsole.log('Available tables with required slots:', availableTablesWithSlots);\n\nconst hasAvailableSlots = availableTablesWithSlots.length > 0;\n\nreturn {json: {\n    available: hasAvailableSlots,\n    requestedTime,\n    requiredSlots,\n    initialTables,\n    availableTablesWithSlots,\n    alternativeTimes:validTimes,\n    isEndOfDay: requiredSlots.some(slot => slot > endTime),\n    period: isLunchPeriod ? 'lunch' : 'dinner'\n}};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        -460
+      ],
+      "id": "f698964a-62e5-498c-8a3f-db47f242e3b6",
+      "name": "availabilityOnRequestedTime"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "459d5385-30cb-4a9e-a55b-6b8ffbc7a1cf",
+              "leftValue": "={{ $json.available }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        -460
+      ],
+      "id": "ff324716-7bc4-4327-9e14-065143a58f62",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a date parsing assistant. Today's date is {{$today}}. Your task is to convert natural language date expressions into YYYY-MM-DD format.\nRules:\n\nAlways output only the date in YYYY-MM-DD format\nIf the year isn't specified, assume the nearest future date\nFor \"next [day]\", select the next occurrence after the upcoming one\nFor relative dates (tomorrow, day after tomorrow), calculate from today's date\nFor numeric dates (e.g., \"15th\"), assume the nearest future occurrence\nFor month names, use the next occurrence if the day has passed\n\nInput examples and expected outputs (assuming today is {{$today}}):\n\n\"tomorrow\" → [calculate tomorrow's date]\n\"next monday\" → [calculate second monday from today]\n\"this friday\" → [calculate next friday]\n\"day after tomorrow\" → [calculate date after tomorrow]\n\"in 3 days\" → [calculate date 3 days from today]\n\"next week tuesday\" → [calculate next tuesday]\n\"december 25th\" → [calculate next December 25th]\n\"25/12\" → [calculate next December 25th]\n\"25th of next month\" → [calculate 25th of next month]\n\"first tuesday of next month\" → [calculate accordingly]\n\"end of this month\" → [calculate last day of current month]\n\"2024-12-25\" → 2024-12-25\n\nOnly respond with the date in YYYY-MM-DD format. No explanations or additional text.\nInput: {{ $json.body.message.toolCalls[0].function.arguments.date }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        -2320,
+        -420
+      ],
+      "id": "3588fbeb-6515-42d9-96a1-375b8105b2d7",
+      "name": "parse date"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nfunction formatTime(timeStr) {\n  // Remove any spaces\n  timeStr = timeStr.toLowerCase().replace(/\\s/g, '');\n  \n  // Handle cases like \"7:30pm\", \"7pm\", \"19:30\", \"7\", \"7:30\"\n  let hours, minutes;\n  \n  if (timeStr.includes('pm')) {\n    timeStr = timeStr.replace('pm', '');\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = (h === 12 ? 12 : h + 12);\n    minutes = m || 0;\n  } else if (timeStr.includes('am')) {\n    timeStr = timeStr.replace('am', '');\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = (h === 12 ? 0 : h);\n    minutes = m || 0;\n  } else {\n    // Assume 24-hour format or just hours\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = h;\n    minutes = m || 0;\n  }\n  \n  // Format with leading zeros\n  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;\n}\nlet requestedTime =$('Webhook').first().json.body.message.toolCalls[0].function.arguments.time\nrequestedTime = formatTime(requestedTime);\n\nreturn {\n  json:{\n    requestedTime\n  }\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1900,
+        -460
+      ],
+      "id": "818f9199-9127-4460-9c06-e199a27a713e",
+      "name": "parseTime"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n    \"results\":[\n        {\n            \"toolCallId\":\"{{ $('Webhook').first().json.body.message.toolCalls[0].id }}\",\n            \"result\":\"available:{{ $json.available }}\"\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        -760
+      ],
+      "id": "638f559b-de9b-42eb-9072-bc0fd7431cc4",
+      "name": "Respond time is available"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n    \"results\":[\n        {\n            \"toolCallId\":\"{{ $('Webhook').first().json.body.message.toolCalls[0].id }}\",\n            \"result\":\"alertnativeTimes:{{ $json.alternativeTimes }}\"\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -260
+      ],
+      "id": "cf40c23b-eefe-4c90-93f3-d294ccbf37dd",
+      "name": "Respond alternative times"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n#### transform Natural language dates, like tomorrow, into real dates properly formatted for airtable\n\n\n\n\n\n\n\n\n\n",
+        "height": 280,
+        "width": 420,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2420,
+        -540
+      ],
+      "id": "2de4f6aa-9b85-4e3f-85cd-3434639b8549",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "#### We get the suitable tables for a given number of guests\nand we create a filter to apply in the formula for airtables in the next node",
+        "height": 280,
+        "width": 300,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1460,
+        -600
+      ],
+      "id": "fe8c71da-3621-4408-8137-4e0d7fe98248",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "#### we filter the tables by date, availability and suitable tables",
+        "height": 220,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        -540
+      ],
+      "id": "e109632f-1894-44b1-9daf-cf6a21b2a60c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "#### Check if the requested time is available, and propose alternative times in the same period (dinner or lunch)",
+        "height": 320,
+        "width": 260,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -780,
+        -620
+      ],
+      "id": "19b99592-6e5a-4818-9f25-a84c741a4b7d",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "#### Transform time to 24h format",
+        "height": 240,
+        "width": 260,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1960,
+        -560
+      ],
+      "id": "81aecbd8-4fa9-4717-9359-59d7397018f2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n    \"results\":[\n        {\n            \"toolCallId\":\"{{ $('Webhook1').first().json.body.message.toolCalls[0].id }}\",\n            \"result\":\"the table has been reserved\"\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -1060,
+        380
+      ],
+      "id": "175830e4-6a34-4ee4-9efa-3e55c99d2629",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appxtRRlb5NSZiaxQ",
+          "mode": "list",
+          "cachedResultName": "Restaurant_Management",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblEfvAEJnuRjzKSR",
+          "mode": "list",
+          "cachedResultName": "Reservations",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ/tblEfvAEJnuRjzKSR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Guests": "={{ $('Edit Fields').item.json.guests }}",
+            "Date": "={{ $('formattedDate').item.json.formattedDate }}",
+            "Table ID": "={{ $('suitableTables1').item.json.table }}",
+            "Status": "Confirmed",
+            "Email": "={{ $('Edit Fields').item.json.email }}",
+            "Name": "={{ $('Edit Fields').item.json.name }}",
+            "Notes": "={{ $('Edit Fields').item.json.notes }}",
+            "Time": "={{ $json.requestedTime }}",
+            "Res ID": "=RES{{ Math.floor(Math.random() * 100000) }}"
+          },
+          "matchingColumns": [
+            "Res ID"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Res ID",
+              "displayName": "Res ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "2024-11-29",
+                  "value": "2024-11-29"
+                },
+                {
+                  "name": "2024-11-30",
+                  "value": "2024-11-30"
+                },
+                {
+                  "name": "2024-12-01",
+                  "value": "2024-12-01"
+                },
+                {
+                  "name": "2024-12-02",
+                  "value": "2024-12-02"
+                },
+                {
+                  "name": "2024-12-03",
+                  "value": "2024-12-03"
+                },
+                {
+                  "name": "2024-12-04",
+                  "value": "2024-12-04"
+                },
+                {
+                  "name": "2024-12-05",
+                  "value": "2024-12-05"
+                },
+                {
+                  "name": "2024-12-06",
+                  "value": "2024-12-06"
+                },
+                {
+                  "name": "2024-12-07",
+                  "value": "2024-12-07"
+                },
+                {
+                  "name": "2024-12-08",
+                  "value": "2024-12-08"
+                },
+                {
+                  "name": "2024-12-09",
+                  "value": "2024-12-09"
+                },
+                {
+                  "name": "2024-12-10",
+                  "value": "2024-12-10"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Table ID",
+              "displayName": "Table ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Guests",
+              "displayName": "Guests",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Confirmed",
+                  "value": "Confirmed"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "updatedTime",
+              "displayName": "updatedTime",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Table_Availability",
+              "displayName": "Table_Availability",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timeSlots",
+              "displayName": "timeSlots",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "table",
+              "displayName": "table",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date (from timeSlots)",
+              "displayName": "Date (from timeSlots)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Time Slot (from timeSlots)",
+              "displayName": "Time Slot (from timeSlots)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1420,
+        380
+      ],
+      "id": "d90c1bd1-7fc0-4e38-ac5f-b39bc8290b17",
+      "name": "Airtable"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4529b69f-9edd-4558-989f-440cf5ade08d",
+              "name": "guests",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.guests }}",
+              "type": "number"
+            },
+            {
+              "id": "6a105262-9cd4-403c-a6ed-28e1ee9dba0f",
+              "name": "name",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5c2f4e3c-f6b0-414a-8bf8-ed6c24c96846",
+              "name": "date",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.date }}",
+              "type": "string"
+            },
+            {
+              "id": "697476d2-f635-4638-a578-a1b245d74a71",
+              "name": "notes",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.notes }}",
+              "type": "string"
+            },
+            {
+              "id": "a9f9d8d6-a568-40bf-9aba-64276d03ee8f",
+              "name": "email",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.email }}",
+              "type": "string"
+            },
+            {
+              "id": "38eac618-1267-42ba-bace-d5bc490404d7",
+              "name": "time",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.time }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2780,
+        380
+      ],
+      "id": "e3dbd2ff-e97e-4641-8ab1-3be4095b8bfd",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0637d1d3-5eaf-449b-8b0a-82db04f60609",
+              "name": "formattedDate",
+              "value": "={{ $json.message.content.date }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1900,
+        380
+      ],
+      "id": "19e37751-e1dc-4a4a-a4c8-674a4f277ffa",
+      "name": "formattedDate"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "0119b32c-b257-4bcb-a78c-a4016640b844",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -3080,
+        380
+      ],
+      "id": "6ef1952c-1ac6-4974-8fad-9b9cea7ebb3e",
+      "name": "Webhook1",
+      "webhookId": "0119b32c-b257-4bcb-a78c-a4016640b844"
+    },
+    {
+      "parameters": {
+        "jsCode": "const guests = $input.first().json.guests\n\n// Get suitable tables based on party size\nfunction getSuitableTables(guests) {\n    if (guests <= 2) return ['T1', 'T2'];\n    if (guests <= 4) return ['T3', 'T4'];\n    if (guests <= 6) return ['T5'];\n    return [];\n}\n\nconst suitableTables = getSuitableTables(guests);\n\n\nreturn {json: {\n  table: suitableTables[0],\n}};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2520,
+        380
+      ],
+      "id": "48233b8f-f50f-49b7-9116-07f218e7a81f",
+      "name": "suitableTables1",
+      "notesInFlow": true,
+      "notes": "We get the suitable tables for a given number of guests\nand we create a filter to apply in the formula for airtables in the next node"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a date parsing assistant. Today's date is {{$today}}. Your task is to convert natural language date expressions into YYYY-MM-DD format.\nRules:\n\nAlways output only the date in YYYY-MM-DD format\nIf the year isn't specified, assume the nearest future date\nFor \"next [day]\", select the next occurrence after the upcoming one\nFor relative dates (tomorrow, day after tomorrow), calculate from today's date\nFor numeric dates (e.g., \"15th\"), assume the nearest future occurrence\nFor month names, use the next occurrence if the day has passed\n\nInput examples and expected outputs (assuming today is {{$today}}):\n\n\"tomorrow\" → [calculate tomorrow's date]\n\"next monday\" → [calculate second monday from today]\n\"this friday\" → [calculate next friday]\n\"day after tomorrow\" → [calculate date after tomorrow]\n\"in 3 days\" → [calculate date 3 days from today]\n\"next week tuesday\" → [calculate next tuesday]\n\"december 25th\" → [calculate next December 25th]\n\"25/12\" → [calculate next December 25th]\n\"25th of next month\" → [calculate 25th of next month]\n\"first tuesday of next month\" → [calculate accordingly]\n\"end of this month\" → [calculate last day of current month]\n\"2024-12-25\" → 2024-12-25\n\nOnly respond with the date in YYYY-MM-DD format. No explanations or additional text.\nInput: {{ $('Edit Fields').item.json.date }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        -2280,
+        380
+      ],
+      "id": "c46080d0-d612-4cfd-8ffe-48f3d6e07fb8",
+      "name": "parse date1"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nfunction formatTime(timeStr) {\n  // Remove any spaces\n  timeStr = timeStr.toLowerCase().replace(/\\s/g, '');\n  \n  // Handle cases like \"7:30pm\", \"7pm\", \"19:30\", \"7\", \"7:30\"\n  let hours, minutes;\n  \n  if (timeStr.includes('pm')) {\n    timeStr = timeStr.replace('pm', '');\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = (h === 12 ? 12 : h + 12);\n    minutes = m || 0;\n  } else if (timeStr.includes('am')) {\n    timeStr = timeStr.replace('am', '');\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = (h === 12 ? 0 : h);\n    minutes = m || 0;\n  } else {\n    // Assume 24-hour format or just hours\n    let [h, m] = timeStr.split(':').map(Number);\n    hours = h;\n    minutes = m || 0;\n  }\n  \n  // Format with leading zeros\n  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;\n}\nlet requestedTime =$('Webhook1').first().json.body.message.toolCalls[0].function.arguments.time\nrequestedTime = formatTime(requestedTime);\n\nreturn {\n  json:{\n    requestedTime\n  }\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1620,
+        380
+      ],
+      "id": "fc93c265-4a9f-45d8-87a7-81e061d860de",
+      "name": "parseTime1"
+    },
+    {
+      "parameters": {
+        "height": 960,
+        "width": 3380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3160,
+        -860
+      ],
+      "id": "eff5a78e-f9ac-4a7a-8764-152e019d1518",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "height": 380,
+        "width": 2340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3160,
+        220
+      ],
+      "id": "f3caf705-2373-471d-a777-a7da7868dc07",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "appxtRRlb5NSZiaxQ",
+          "mode": "id"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "tblEfvAEJnuRjzKSR",
+          "mode": "id"
+        },
+        "triggerField": "updatedTime",
+        "additionalFields": {
+          "fields": ""
+        }
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3020,
+        980
+      ],
+      "id": "6832ebac-431f-4a44-9d04-5a57e686fbc6",
+      "name": "Airtable Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const reservation = $input.first().json;\nconst startTime = reservation.startTime;  \nconst tableId = reservation.tableId;\nconst date = reservation.date;\nconst resId = reservation.resId\n\n// Generate the 4 time slots that need to be updated\nfunction getNextSlot(time) {\n    const [hours, minutes] = time.split(':').map(Number);\n    const date = new Date();\n    date.setHours(hours, minutes + 30);\n    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;\n}\n\nlet timesToUpdate = [startTime];\nlet currentTime = startTime;\nfor(let i = 0; i < 3; i++) {\n    currentTime = getNextSlot(currentTime);\n    timesToUpdate.push(currentTime);\n}\n\n// Format records for Airtable update\nlet records = timesToUpdate.map(timeSlot => ({\n        \"Date\": date,\n        \"Time Slot\": timeSlot,\n        \"Table ID\": tableId,\n        \"Status\": \"Unavailable\",\n         \"Reservation ID\": resId  \n}));\n\n\n\n\nreturn records\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2580,
+        980
+      ],
+      "id": "22f2aa1c-2cfc-454d-945d-36209644cc8a",
+      "name": "generateRecords"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2200,
+        980
+      ],
+      "id": "4580a92c-da8d-45fd-9104-7ac132e98f79",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appxtRRlb5NSZiaxQ",
+          "mode": "list",
+          "cachedResultName": "Restaurant_Management",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblAxvB06ZIIZMnUA",
+          "mode": "list",
+          "cachedResultName": "Table_Availability",
+          "cachedResultUrl": "https://airtable.com/appxtRRlb5NSZiaxQ/tblAxvB06ZIIZMnUA"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Time Slot": "={{ $json[\"Time Slot\"] }}",
+            "Table ID": "={{ $json[\"Table ID\"] }}",
+            "Date": "={{ $json.Date }}",
+            "Status": "Unavailable",
+            "Reservation ID": "={{ $json[\"Reservation ID\"] }}"
+          },
+          "matchingColumns": [
+            "Time Slot",
+            "Table ID",
+            "Date"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Table ID",
+              "displayName": "Table ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "T1",
+                  "value": "T1"
+                },
+                {
+                  "name": "T3",
+                  "value": "T3"
+                },
+                {
+                  "name": "T5",
+                  "value": "T5"
+                },
+                {
+                  "name": "T2",
+                  "value": "T2"
+                },
+                {
+                  "name": "T4",
+                  "value": "T4"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Time Slot",
+              "displayName": "Time Slot",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "11:00",
+                  "value": "11:00"
+                },
+                {
+                  "name": "11:30",
+                  "value": "11:30"
+                },
+                {
+                  "name": "12:00",
+                  "value": "12:00"
+                },
+                {
+                  "name": "12:30",
+                  "value": "12:30"
+                },
+                {
+                  "name": "13:00",
+                  "value": "13:00"
+                },
+                {
+                  "name": "13:30",
+                  "value": "13:30"
+                },
+                {
+                  "name": "14:00",
+                  "value": "14:00"
+                },
+                {
+                  "name": "14:30",
+                  "value": "14:30"
+                },
+                {
+                  "name": "19:00",
+                  "value": "19:00"
+                },
+                {
+                  "name": "19:30",
+                  "value": "19:30"
+                },
+                {
+                  "name": "20:00",
+                  "value": "20:00"
+                },
+                {
+                  "name": "20:30",
+                  "value": "20:30"
+                },
+                {
+                  "name": "18:30",
+                  "value": "18:30"
+                },
+                {
+                  "name": "21:00",
+                  "value": "21:00"
+                },
+                {
+                  "name": "18:00",
+                  "value": "18:00"
+                },
+                {
+                  "name": "21:30",
+                  "value": "21:30"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Unavailable",
+                  "value": "Unavailable"
+                },
+                {
+                  "name": "Available",
+                  "value": "Available"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Reservation ID",
+              "displayName": "Reservation ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "reservation",
+              "displayName": "reservation",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "table",
+              "displayName": "table",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Table ID (from table)",
+              "displayName": "Table ID (from table)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Date (from reservation)",
+              "displayName": "Date (from reservation)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Time (from reservation)",
+              "displayName": "Time (from reservation)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Guests (from reservation)",
+              "displayName": "Guests (from reservation)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Reservations",
+              "displayName": "Reservations",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tables",
+              "displayName": "Tables",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1920,
+        1000
+      ],
+      "id": "f3f45220-8760-4865-955f-f09643548289",
+      "name": "Airtable1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9db895c8-c5a4-4d3d-9ade-b57d06af7d14",
+              "name": "startTime",
+              "value": "={{ $json.fields.Time }}",
+              "type": "string"
+            },
+            {
+              "id": "161dbc05-afae-40fe-a111-1241e453f560",
+              "name": "tableId",
+              "value": "={{ $json.fields['Table ID'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1161c6b8-a588-495a-bc8d-f2b27f5cf0f0",
+              "name": "date",
+              "value": "={{ $json.fields.Date }}",
+              "type": "string"
+            },
+            {
+              "id": "dd7c2494-a16f-4978-941e-34035e25831d",
+              "name": "resId",
+              "value": "={{ $json.fields[\"Res ID\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2800,
+        980
+      ],
+      "id": "1b390a4a-49ee-4e69-81aa-8244377938b6",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "content": "#### Triggered by changes in the Reservation table",
+        "height": 240,
+        "width": 260,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3100,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "7965caf7-167d-464e-893c-4b81ae235a42",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "#### Create 3 additional Records, corresponding to the 3 next consecutive 30mn slots to cover a 2h reservation, and format the records for the table_availability table ",
+        "height": 280,
+        "width": 300,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2660,
+        840
+      ],
+      "typeVersion": 1,
+      "id": "e9df5ae0-0dbd-474a-8910-420b1f8cc046",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "height": 520,
+        "width": 1480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3140,
+        680
+      ],
+      "id": "2104ff4f-f2d8-4366-af55-6c39838c9585",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3220,
+        -640
+      ],
+      "id": "1a1c94c9-50c3-423d-9b09-37155aae9598",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5oyPAwibiOEyC8n",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "primary-production-0ae1.up.railway.app",
+            "user-agent": "axios/1.7.7",
+            "content-length": "13563",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "baggage": "sentry-environment=production,sentry-public_key=a0021577936aec367b16615ad816c078,sentry-trace_id=af7f8427b9074a84a31ec7a77da9846b",
+            "content-type": "application/json",
+            "sentry-trace": "af7f8427b9074a84a31ec7a77da9846b-b472a3a458392c08",
+            "traceparent": "00-674ec717000000000de91c4666bfefa4-0de91c4666bfefa4-01",
+            "tracestate": "dd=t.tid:674ec71700000000;t.dm:-1;s:1;p:0de91c4666bfefa4",
+            "x-datadog-parent-id": "1002363480763789220",
+            "x-datadog-sampling-priority": "1",
+            "x-datadog-tags": "_dd.p.tid=674ec71700000000,_dd.p.dm=-1",
+            "x-datadog-trace-id": "1002363480763789220",
+            "x-forwarded-for": "44.242.158.150",
+            "x-forwarded-host": "primary-production-0ae1.up.railway.app",
+            "x-forwarded-proto": "https",
+            "x-railway-request-id": "UJSYiXJsQXWjDE_6urQuQA_603909319",
+            "x-real-ip": "44.242.158.150",
+            "x-request-start": "1733216023511",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": {
+              "timestamp": 1733216023423,
+              "type": "tool-calls",
+              "toolCalls": [
+                {
+                  "id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                  "type": "function",
+                  "function": {
+                    "name": "checkTableAvailability",
+                    "arguments": {
+                      "date": "tomorrow",
+                      "time": "7 PM",
+                      "guests": 6
+                    }
+                  }
+                }
+              ],
+              "toolCallList": [
+                {
+                  "id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                  "type": "function",
+                  "function": {
+                    "name": "checkTableAvailability",
+                    "arguments": {
+                      "date": "tomorrow",
+                      "time": "7 PM",
+                      "guests": 6
+                    }
+                  }
+                }
+              ],
+              "toolWithToolCallList": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "checkTableAvailability",
+                    "async": false,
+                    "parameters": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "description": "the date  for the reservation"
+                        },
+                        "time": {
+                          "type": "string",
+                          "description": "The time for the reservation"
+                        },
+                        "guests": {
+                          "type": "number",
+                          "description": "the number of guests"
+                        }
+                      }
+                    },
+                    "description": "This tool check the table availability on a given date and time for a given number of guests"
+                  },
+                  "async": false,
+                  "server": {
+                    "url": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65"
+                  },
+                  "messages": [],
+                  "toolCall": {
+                    "id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                    "type": "function",
+                    "function": {
+                      "name": "checkTableAvailability",
+                      "arguments": {
+                        "date": "tomorrow",
+                        "time": "7 PM",
+                        "guests": 6
+                      }
+                    }
+                  }
+                }
+              ],
+              "artifact": {
+                "messages": [
+                  {
+                    "role": "system",
+                    "message": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, i...",
+                    "time": 1733215996713,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "This is Sofia from Little Italy. How can I assist you today?",
+                    "time": 1733215998552,
+                    "endTime": 1733216001691.9998,
+                    "secondsFromStart": 1.68,
+                    "duration": 3139.999755859375,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Hello. I would like to reserve a table, please.",
+                    "time": 1733216003172,
+                    "endTime": 1733216005272,
+                    "secondsFromStart": 6.3,
+                    "duration": 2100
+                  },
+                  {
+                    "role": "bot",
+                    "message": "I'd be happy to help you with that. Can I get your name first, please?",
+                    "time": 1733216006801.999,
+                    "endTime": 1733216010251.999,
+                    "secondsFromStart": 9.929999,
+                    "duration": 3050.0009765625,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Alexandra.",
+                    "time": 1733216011552,
+                    "endTime": 1733216012052,
+                    "secondsFromStart": 14.68,
+                    "duration": 500
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Nice to meet you, Alexandra. For how many people and what day and time would you like to make the reservation?",
+                    "time": 1733216013252,
+                    "endTime": 1733216018241.999,
+                    "secondsFromStart": 16.38,
+                    "duration": 4519.9990234375,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "6 people for tomorrow at 7 PM, please.",
+                    "time": 1733216019632,
+                    "endTime": 1733216023172,
+                    "secondsFromStart": 22.76,
+                    "duration": 3540
+                  },
+                  {
+                    "toolCalls": [
+                      {
+                        "id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                        "type": "function",
+                        "function": {
+                          "name": "checkTableAvailability",
+                          "arguments": "{\"date\": \"tomorrow\", \"time\": \"7 PM\", \"guests\": 6}"
+                        }
+                      }
+                    ],
+                    "role": "tool_calls",
+                    "message": "",
+                    "time": 1733216023421,
+                    "secondsFromStart": 26.125
+                  }
+                ],
+                "messagesOpenAIFormatted": [
+                  {
+                    "role": "system",
+                    "content": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, i..."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "This is Sofia from Little Italy. How can I assist you today?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Hello. I would like to reserve a table, please."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "I'd be happy to help you with that. Can I get your name first, please?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Alexandra."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Nice to meet you, Alexandra. For how many people and what day and time would you like to make the reservation?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "6 people for tomorrow at 7 PM, please."
+                  },
+                  {
+                    "role": "assistant",
+                    "tool_calls": [
+                      {
+                        "id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                        "type": "function",
+                        "function": {
+                          "name": "checkTableAvailability",
+                          "arguments": "{\"date\": \"tomorrow\", \"time\": \"7 PM\", \"guests\": 6}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_xFErqsXprUFgCZHVn8sUSBc3",
+                    "content": "Tool Result Still Pending But Proceed Further If Possible."
+                  }
+                ]
+              },
+              "call": {
+                "id": "e339982e-208a-4fc0-ac7a-678fd4f038fc",
+                "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                "createdAt": "2024-12-03T08:53:15.659Z",
+                "updatedAt": "2024-12-03T08:53:15.659Z",
+                "type": "inboundPhoneCall",
+                "monitor": {
+                  "listenUrl": "wss://phone-call-websocket.aws-us-west-2-backend-production3.vapi.ai/e339982e-208a-4fc0-ac7a-678fd4f038fc/listen",
+                  "controlUrl": "https://phone-call-websocket.aws-us-west-2-backend-production3.vapi.ai/e339982e-208a-4fc0-ac7a-678fd4f038fc/control"
+                },
+                "transport": {},
+                "phoneCallProvider": "twilio",
+                "phoneCallProviderId": "CAae471864241ff8a57378d6341209ab31",
+                "phoneCallTransport": "pstn",
+                "status": "ringing",
+                "assistantId": "3b7d420d-edfa-406f-8b7f-4262de1118ea",
+                "phoneNumberId": "c1e2e063-57d6-47db-8041-a72e24d055ef",
+                "customer": {
+                  "number": "+34602409912"
+                }
+              },
+              "phoneNumber": {
+                "id": "c1e2e063-57d6-47db-8041-a72e24d055ef",
+                "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                "assistantId": "3b7d420d-edfa-406f-8b7f-4262de1118ea",
+                "number": "+14154814459",
+                "createdAt": "2024-08-21T15:13:27.225Z",
+                "updatedAt": "2024-12-02T09:31:37.994Z",
+                "twilioAccountSid": "AC9907ef09aee9e7febf187b17878b1c5f",
+                "twilioAuthToken": "a1f9a585ded6a8e6eb7b232a1285c9c5",
+                "name": "san francisco number",
+                "provider": "twilio",
+                "fallbackDestination": {
+                  "type": "number",
+                  "number": "+34602409912"
+                }
+              },
+              "customer": {
+                "number": "+34602409912"
+              },
+              "assistant": {
+                "id": "3b7d420d-edfa-406f-8b7f-4262de1118ea",
+                "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                "name": "Restaurant receptionist",
+                "voice": {
+                  "voiceId": "cgSgspJ2msm6clMCkdW9",
+                  "provider": "11labs",
+                  "stability": 0.5,
+                  "similarityBoost": 0.75,
+                  "fillerInjectionEnabled": false
+                },
+                "createdAt": "2024-11-28T12:15:50.959Z",
+                "updatedAt": "2024-12-02T09:32:06.543Z",
+                "model": {
+                  "model": "gpt-4o",
+                  "toolIds": [
+                    "4423c3d7-5a12-409d-b3fd-7e354f00f3e7",
+                    "7fd0c412-0b1e-40e0-b0ae-436c839ad2f7"
+                  ],
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, including regional specialties\n- Pass the time provided by the customer to the function as is, do not convert it\n- Make sure to capture information about the day of booking (e.g., tomorrow, yesterday, Friday), not just the time\n- Only let customers know the availability after checking\n- Only book the reservation after collecting name, email, and special requests\n- Refer to the knowledge base for any questions about our business\n- If you didn't hear clearly, confirm before proceeding\n\n# Response Handling\nAfter checkTableAvailability:\n- Continue the conversation until the customer either:\n  * Selects an available time\n  * Chooses to try a different date\n  * Declines to make a reservation\n- Never end the conversation just because a time is unavailable\n- Always wait for customer response after presenting alternatives\n\n# Conversation Style\n- Be warm, welcoming, witty and charming, but keep it casual\n- Keep responses short and conversational\n- Use the customer's name throughout\n- Never say you're running functions\n- Never enumerate things with numbers\n- Be knowledgeable about Italian cuisine\n- Steer conversation back on track if needed\n- If customer is cut off, ask them to repeat\n- Only greet once at the beginning\n- Never repeat what customer said without reason\n- Avoid saying the same thing twice\n- Handle dietary requests with care\n\n# Example\nYou: Buongiorno! Welcome to Little Italy! How can I help you today?\nCustomer: I'd like to make a reservation for dinner tonight.\nYou: I'd be happy to help you with that. What time would you like to book, and for how many people?\nCustomer: For 2 people at 7:30pm tonight.\nYou: Let me check our availability for 2 people at 7:30pm tonight. \nYou: We do have availability at that time. May I have your name and email to finalize the booking?\nCustomer: My name is Michael, and my email is michael@gmail.com\nYou: Grazie, Michael! Would you like me to note any special requests, such as dietary restrictions or a special occasion?\nCustomer: Yes, my wife is vegetarian.\nYou: I'll make sure our chef knows about that. Let me finalize your reservation. \nYou: Perfetto! Your reservation is confirmed for 2 people at 7:30pm today, Michael."
+                    }
+                  ],
+                  "provider": "openai",
+                  "temperature": 0.7,
+                  "knowledgeBase": {
+                    "topK": 2,
+                    "fileIds": [
+                      "478312fa-2d81-4176-a4de-bc6250e8abf6"
+                    ],
+                    "provider": "canonical"
+                  },
+                  "tools": [
+                    {
+                      "id": "4423c3d7-5a12-409d-b3fd-7e354f00f3e7",
+                      "createdAt": "2024-11-29T14:27:15.405Z",
+                      "updatedAt": "2024-12-01T15:25:31.594Z",
+                      "type": "function",
+                      "function": {
+                        "name": "checkTableAvailability",
+                        "async": false,
+                        "parameters": {
+                          "type": "object",
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "description": "the date  for the reservation"
+                            },
+                            "time": {
+                              "type": "string",
+                              "description": "The time for the reservation"
+                            },
+                            "guests": {
+                              "type": "number",
+                              "description": "the number of guests"
+                            }
+                          }
+                        },
+                        "description": "This tool check the table availability on a given date and time for a given number of guests"
+                      },
+                      "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                      "server": {
+                        "url": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65"
+                      },
+                      "async": false
+                    },
+                    {
+                      "id": "7fd0c412-0b1e-40e0-b0ae-436c839ad2f7",
+                      "createdAt": "2024-11-28T12:35:45.627Z",
+                      "updatedAt": "2024-12-01T17:34:42.730Z",
+                      "type": "function",
+                      "function": {
+                        "name": "ReserveTable",
+                        "async": false,
+                        "parameters": {
+                          "type": "object",
+                          "required": [
+                            "guests"
+                          ],
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "description": "the date for the reservation"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "the first name of the customer"
+                            },
+                            "time": {
+                              "type": "string",
+                              "description": "the time of the reservation"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "the customer email"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "description": "any special note about the reservation"
+                            },
+                            "guests": {
+                              "type": "number",
+                              "description": "Number of guests attending to the dinner"
+                            }
+                          }
+                        },
+                        "description": "Reserve a table at a restaurant for a given date and time, and for a given number of guests"
+                      },
+                      "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                      "server": {
+                        "url": "https://primary-production-0ae1.up.railway.app/webhook/0119b32c-b257-4bcb-a78c-a4016640b844"
+                      },
+                      "async": false
+                    }
+                  ]
+                },
+                "recordingEnabled": true,
+                "firstMessage": "Buongiorno, this is Sofia from Little Italy. How can I assist you today?",
+                "voicemailMessage": "You've reached Little Italy voice mail, please leave a message after the beep",
+                "endCallFunctionEnabled": true,
+                "endCallMessage": "Thank you for contacting Little Italy. Have a great day!",
+                "transcriber": {
+                  "model": "nova-2",
+                  "language": "en",
+                  "provider": "deepgram"
+                },
+                "clientMessages": [
+                  "voice-input"
+                ],
+                "serverMessages": [
+                  "end-of-call-report",
+                  "tool-calls"
+                ],
+                "serverUrl": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65",
+                "endCallPhrases": [
+                  "goodbye",
+                  "talk to you soon"
+                ],
+                "backgroundSound": "office",
+                "backchannelingEnabled": false,
+                "analysisPlan": {
+                  "structuredDataSchema": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "guests",
+                      "dateTime"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "guests": {
+                        "type": "number"
+                      },
+                      "dateTime": {
+                        "type": "string"
+                      },
+                      "preferences": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "backgroundDenoisingEnabled": false,
+                "messagePlan": {
+                  "idleMessages": [
+                    "Is there anything else you need help with?"
+                  ]
+                }
+              }
+            }
+          },
+          "webhookUrl": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "primary-production-0ae1.up.railway.app",
+            "user-agent": "axios/1.7.7",
+            "content-length": "15820",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "baggage": "sentry-environment=production,sentry-public_key=a0021577936aec367b16615ad816c078,sentry-trace_id=51467f977a1344faa51131035449ea9e",
+            "content-type": "application/json",
+            "sentry-trace": "51467f977a1344faa51131035449ea9e-a4e5abd05aa5a3ad",
+            "traceparent": "00-674c9ec30000000045efe6f11ed7a228-45efe6f11ed7a228-01",
+            "tracestate": "dd=t.tid:674c9ec300000000;t.dm:-1;s:1;p:45efe6f11ed7a228",
+            "x-datadog-parent-id": "5039500431329829416",
+            "x-datadog-sampling-priority": "1",
+            "x-datadog-tags": "_dd.p.tid=674c9ec300000000,_dd.p.dm=-1",
+            "x-datadog-trace-id": "5039500431329829416",
+            "x-forwarded-for": "54.214.55.161",
+            "x-forwarded-host": "primary-production-0ae1.up.railway.app",
+            "x-forwarded-proto": "https",
+            "x-railway-request-id": "HmrSAFEfTIu_XybJZTjtnA_2395810083",
+            "x-real-ip": "54.214.55.161",
+            "x-request-start": "1733074627921",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": {
+              "timestamp": 1733074627835,
+              "type": "tool-calls",
+              "toolCalls": [
+                {
+                  "id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                  "type": "function",
+                  "function": {
+                    "name": "ReserveTable",
+                    "arguments": {
+                      "date": "today",
+                      "name": "Alexandra",
+                      "time": "8:00 PM",
+                      "email": "alex@gmail.com",
+                      "notes": "Window table,",
+                      "guests": 2
+                    }
+                  }
+                }
+              ],
+              "toolCallList": [
+                {
+                  "id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                  "type": "function",
+                  "function": {
+                    "name": "ReserveTable",
+                    "arguments": {
+                      "date": "today",
+                      "name": "Alexandra",
+                      "time": "8:00 PM",
+                      "email": "alex@gmail.com",
+                      "notes": "Window table,",
+                      "guests": 2
+                    }
+                  }
+                }
+              ],
+              "toolWithToolCallList": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "ReserveTable",
+                    "async": false,
+                    "parameters": {
+                      "type": "object",
+                      "required": [
+                        "guests"
+                      ],
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "description": "the date for the reservation"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "the first name of the customer"
+                        },
+                        "time": {
+                          "type": "string",
+                          "description": "the time of the reservation"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "the customer email"
+                        },
+                        "notes": {
+                          "type": "string",
+                          "description": "any special note about the reservation"
+                        },
+                        "guests": {
+                          "type": "number",
+                          "description": "Number of guests attending to the dinner"
+                        }
+                      }
+                    },
+                    "description": "Reserve a table at a restaurant for a given date and time, and for a given number of guests"
+                  },
+                  "async": false,
+                  "server": {
+                    "url": "https://primary-production-0ae1.up.railway.app/webhook/0119b32c-b257-4bcb-a78c-a4016640b844"
+                  },
+                  "messages": [],
+                  "toolCall": {
+                    "id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                    "type": "function",
+                    "function": {
+                      "name": "ReserveTable",
+                      "arguments": {
+                        "date": "today",
+                        "name": "Alexandra",
+                        "time": "8:00 PM",
+                        "email": "alex@gmail.com",
+                        "notes": "Window table,",
+                        "guests": 2
+                      }
+                    }
+                  }
+                }
+              ],
+              "artifact": {
+                "messages": [
+                  {
+                    "role": "system",
+                    "message": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, i...",
+                    "time": 1733074570238,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Bonjourno, this is Sofia from Little Italy. Can I assist you today? I think you got cut off there. How can I assist you today?",
+                    "time": 1733074571861,
+                    "endTime": 1733074582581,
+                    "secondsFromStart": 1.28,
+                    "duration": 6720,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "I want to make a reservation.",
+                    "time": 1733074583561,
+                    "endTime": 1733074584941,
+                    "secondsFromStart": 12.98,
+                    "duration": 1380
+                  },
+                  {
+                    "role": "bot",
+                    "message": "I'd be happy to help with that. May I have your name, please?",
+                    "time": 1733074586871,
+                    "endTime": 1733074590020.999,
+                    "secondsFromStart": 16.29,
+                    "duration": 2909.9990234375,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Alexandra,",
+                    "time": 1733074590350.999,
+                    "endTime": 1733074590850.999,
+                    "secondsFromStart": 19.769999,
+                    "duration": 500
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Great to meet you, Alexandra. How many people will be in your party, and what date and time would you like to Serve.",
+                    "time": 1733074594141,
+                    "endTime": 1733074599471,
+                    "secondsFromStart": 23.56,
+                    "duration": 5330,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "2 people for today at 8 PM.",
+                    "time": 1733074600110.999,
+                    "endTime": 1733074602291,
+                    "secondsFromStart": 29.529999,
+                    "duration": 2180.0009765625
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Hold on a sec. We have availability for 2 people at 8 PM today.",
+                    "time": 1733074603321,
+                    "endTime": 1733074608581,
+                    "secondsFromStart": 32.74,
+                    "duration": 4199.998046875,
+                    "source": ""
+                  },
+                  {
+                    "toolCalls": [
+                      {
+                        "id": "call_4tdeUBkbjM8HFtxkMHiGr9VP",
+                        "type": "function",
+                        "function": {
+                          "name": "checkTableAvailability",
+                          "arguments": "{\"date\": \"today\", \"time\": \"8:00 PM\", \"guests\": 2}"
+                        }
+                      }
+                    ],
+                    "role": "tool_calls",
+                    "message": "",
+                    "time": 1733074605648,
+                    "secondsFromStart": 31.51
+                  },
+                  {
+                    "role": "tool_call_result",
+                    "time": 1733074606980,
+                    "secondsFromStart": 32.842,
+                    "name": "checkTableAvailability",
+                    "result": "available:true",
+                    "toolCallId": "call_4tdeUBkbjM8HFtxkMHiGr9VP"
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Can I have your email to finalize the booking, Alexandra?",
+                    "time": 1733074608931.002,
+                    "endTime": 1733074611511,
+                    "secondsFromStart": 38.350002,
+                    "duration": 2579.998046875,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Alex at g mail dot com.",
+                    "time": 1733074612171,
+                    "endTime": 1733074613791,
+                    "secondsFromStart": 41.59,
+                    "duration": 1620
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Got it, Alexandra. Would you like to note any special requests such as dietary restrictions or a special occasion?",
+                    "time": 1733074615001.002,
+                    "endTime": 1733074620701,
+                    "secondsFromStart": 44.420002,
+                    "duration": 5139.998046875,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "I want to be near the window.",
+                    "time": 1733074621890.998,
+                    "endTime": 1733074623751,
+                    "secondsFromStart": 51.309998,
+                    "duration": 1860.001953125
+                  },
+                  {
+                    "toolCalls": [
+                      {
+                        "id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                        "type": "function",
+                        "function": {
+                          "name": "ReserveTable",
+                          "arguments": "{\n  \"date\": \"today\",\n  \"name\": \"Alexandra\",\n  \"time\": \"8:00 PM\",\n  \"email\": \"alex@gmail.com\",\n  \"notes\": \"Window table,\",\n  \"guests\": 2\n}"
+                        }
+                      }
+                    ],
+                    "role": "tool_calls",
+                    "message": "",
+                    "time": 1733074627834,
+                    "secondsFromStart": 53.696
+                  }
+                ],
+                "messagesOpenAIFormatted": [
+                  {
+                    "role": "system",
+                    "content": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, i..."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Bonjourno, this is Sofia from Little Italy. Can I assist you today? I think you got cut off there. How can I assist you today?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "I want to make a reservation."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "I'd be happy to help with that. May I have your name, please?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Alexandra,"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Great to meet you, Alexandra. How many people will be in your party, and what date and time would you like to Serve."
+                  },
+                  {
+                    "role": "user",
+                    "content": "2 people for today at 8 PM."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Hold on a sec. We have availability for 2 people at 8 PM today.",
+                    "tool_calls": [
+                      {
+                        "id": "call_4tdeUBkbjM8HFtxkMHiGr9VP",
+                        "type": "function",
+                        "function": {
+                          "name": "checkTableAvailability",
+                          "arguments": "{\"date\": \"today\", \"time\": \"8:00 PM\", \"guests\": 2}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_4tdeUBkbjM8HFtxkMHiGr9VP",
+                    "content": "available:true"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Can I have your email to finalize the booking, Alexandra?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Alex at g mail dot com."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Got it, Alexandra. Would you like to note any special requests such as dietary restrictions or a special occasion?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "I want to be near the window."
+                  },
+                  {
+                    "role": "assistant",
+                    "tool_calls": [
+                      {
+                        "id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                        "type": "function",
+                        "function": {
+                          "name": "ReserveTable",
+                          "arguments": "{\n  \"date\": \"today\",\n  \"name\": \"Alexandra\",\n  \"time\": \"8:00 PM\",\n  \"email\": \"alex@gmail.com\",\n  \"notes\": \"Window table,\",\n  \"guests\": 2\n}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_yPgdhwtHjLIC3fw1W6zrutaR",
+                    "content": "Tool Result Still Pending But Proceed Further If Possible."
+                  }
+                ]
+              },
+              "call": {
+                "id": "eba3ac6d-382e-4f07-83d7-2c3c3acd3baf",
+                "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                "createdAt": "2024-12-01T17:36:09.226Z",
+                "updatedAt": "2024-12-01T17:36:09.226Z",
+                "type": "webCall",
+                "monitor": {
+                  "listenUrl": "wss://phone-call-websocket.aws-us-west-2-backend-production3.vapi.ai/eba3ac6d-382e-4f07-83d7-2c3c3acd3baf/listen",
+                  "controlUrl": "https://phone-call-websocket.aws-us-west-2-backend-production3.vapi.ai/eba3ac6d-382e-4f07-83d7-2c3c3acd3baf/control"
+                },
+                "transport": {
+                  "assistantVideoEnabled": false
+                },
+                "webCallUrl": "https://vapi.daily.co/x6dpeXxFy937ZXPx0WOd",
+                "status": "queued",
+                "assistantId": "3b7d420d-edfa-406f-8b7f-4262de1118ea",
+                "assistantOverrides": {
+                  "clientMessages": [
+                    "transfer-update",
+                    "transcript"
+                  ]
+                }
+              },
+              "assistant": {
+                "id": "3b7d420d-edfa-406f-8b7f-4262de1118ea",
+                "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                "name": "Restaurant receptionist",
+                "voice": {
+                  "voiceId": "cgSgspJ2msm6clMCkdW9",
+                  "provider": "11labs",
+                  "stability": 0.5,
+                  "similarityBoost": 0.75,
+                  "fillerInjectionEnabled": false
+                },
+                "createdAt": "2024-11-28T12:15:50.959Z",
+                "updatedAt": "2024-12-01T17:35:56.749Z",
+                "model": {
+                  "model": "gpt-4o",
+                  "toolIds": [
+                    "4423c3d7-5a12-409d-b3fd-7e354f00f3e7",
+                    "7fd0c412-0b1e-40e0-b0ae-436c839ad2f7"
+                  ],
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "# Role\nYour name is Sofia, and you are an experienced restaurant receptionist at Little Italy.\n\n# Task\nYour task is to answer customer questions about the restaurant. If they would like to book a reservation, follow these steps:\n- Always Ask for the customer name first\n- Ask them for the total number of people and desired time and day\n- Use checkTableAvailability to verify availability for the requested time\n- Based on the function response:\n  * If available: Proceed to collect email and special requests, then use ReserveTable\n  * If not available but alternatives exist: Present the alternatives and wait for customer choice\n  * If no alternatives: Suggest picking a different date and wait for customer response\n- Only end the conversation when:\n  * The customer explicitly ends it\n  * A reservation is successfully completed\n  * The customer declines to pick alternative times/dates\n\n# Specifics\n- If customers ask about the menu, provide specific examples of our authentic Italian dishes, including regional specialties\n- Pass the time provided by the customer to the function as is, do not convert it\n- Make sure to capture information about the day of booking (e.g., tomorrow, yesterday, Friday), not just the time\n- Only let customers know the availability after checking\n- Only book the reservation after collecting name, email, and special requests\n- Refer to the knowledge base for any questions about our business\n- If you didn't hear clearly, confirm before proceeding\n\n# Response Handling\nAfter checkTableAvailability:\n- Continue the conversation until the customer either:\n  * Selects an available time\n  * Chooses to try a different date\n  * Declines to make a reservation\n- Never end the conversation just because a time is unavailable\n- Always wait for customer response after presenting alternatives\n\n# Conversation Style\n- Be warm, welcoming, witty and charming, but keep it casual\n- Keep responses short and conversational\n- Use the customer's name throughout\n- Never say you're running functions\n- Never enumerate things with numbers\n- Be knowledgeable about Italian cuisine\n- Steer conversation back on track if needed\n- If customer is cut off, ask them to repeat\n- Only greet once at the beginning\n- Never repeat what customer said without reason\n- Avoid saying the same thing twice\n- Handle dietary requests with care\n\n# Example\nYou: Buongiorno! Welcome to Little Italy! How can I help you today?\nCustomer: I'd like to make a reservation for dinner tonight.\nYou: I'd be happy to help you with that. What time would you like to book, and for how many people?\nCustomer: For 2 people at 7:30pm tonight.\nYou: Let me check our availability for 2 people at 7:30pm tonight. \nYou: We do have availability at that time. May I have your name and email to finalize the booking?\nCustomer: My name is Michael, and my email is michael@gmail.com\nYou: Grazie, Michael! Would you like me to note any special requests, such as dietary restrictions or a special occasion?\nCustomer: Yes, my wife is vegetarian.\nYou: I'll make sure our chef knows about that. Let me finalize your reservation. \nYou: Perfetto! Your reservation is confirmed for 2 people at 7:30pm today, Michael."
+                    }
+                  ],
+                  "provider": "openai",
+                  "temperature": 0.7,
+                  "knowledgeBase": {
+                    "topK": 2,
+                    "fileIds": [
+                      "478312fa-2d81-4176-a4de-bc6250e8abf6"
+                    ],
+                    "provider": "canonical"
+                  },
+                  "tools": [
+                    {
+                      "id": "4423c3d7-5a12-409d-b3fd-7e354f00f3e7",
+                      "createdAt": "2024-11-29T14:27:15.405Z",
+                      "updatedAt": "2024-12-01T15:25:31.594Z",
+                      "type": "function",
+                      "function": {
+                        "name": "checkTableAvailability",
+                        "async": false,
+                        "parameters": {
+                          "type": "object",
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "description": "the date  for the reservation"
+                            },
+                            "time": {
+                              "type": "string",
+                              "description": "The time for the reservation"
+                            },
+                            "guests": {
+                              "type": "number",
+                              "description": "the number of guests"
+                            }
+                          }
+                        },
+                        "description": "This tool check the table availability on a given date and time for a given number of guests"
+                      },
+                      "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                      "server": {
+                        "url": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65"
+                      },
+                      "async": false
+                    },
+                    {
+                      "id": "7fd0c412-0b1e-40e0-b0ae-436c839ad2f7",
+                      "createdAt": "2024-11-28T12:35:45.627Z",
+                      "updatedAt": "2024-12-01T17:34:42.730Z",
+                      "type": "function",
+                      "function": {
+                        "name": "ReserveTable",
+                        "async": false,
+                        "parameters": {
+                          "type": "object",
+                          "required": [
+                            "guests"
+                          ],
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "description": "the date for the reservation"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "the first name of the customer"
+                            },
+                            "time": {
+                              "type": "string",
+                              "description": "the time of the reservation"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "the customer email"
+                            },
+                            "notes": {
+                              "type": "string",
+                              "description": "any special note about the reservation"
+                            },
+                            "guests": {
+                              "type": "number",
+                              "description": "Number of guests attending to the dinner"
+                            }
+                          }
+                        },
+                        "description": "Reserve a table at a restaurant for a given date and time, and for a given number of guests"
+                      },
+                      "orgId": "a07e49ef-b6d7-4fd2-8842-6b15d3f8cae4",
+                      "server": {
+                        "url": "https://primary-production-0ae1.up.railway.app/webhook/0119b32c-b257-4bcb-a78c-a4016640b844"
+                      },
+                      "async": false
+                    }
+                  ]
+                },
+                "recordingEnabled": true,
+                "firstMessage": "Buongiorno, this is Sofia from Little Italy. How can I assist you today?",
+                "voicemailMessage": "You've reached Little Italy voice mail, please leave a message after the beep",
+                "endCallFunctionEnabled": true,
+                "endCallMessage": "Thank you for contacting Little Italy. Have a great day!",
+                "transcriber": {
+                  "model": "nova-2",
+                  "language": "en",
+                  "provider": "deepgram"
+                },
+                "clientMessages": [
+                  "voice-input",
+                  "transfer-update",
+                  "transcript"
+                ],
+                "serverMessages": [
+                  "end-of-call-report",
+                  "tool-calls"
+                ],
+                "serverUrl": "https://primary-production-0ae1.up.railway.app/webhook/62d320bb-788e-4dd8-bae7-0316c9adee65",
+                "endCallPhrases": [
+                  "goodbye",
+                  "talk to you soon"
+                ],
+                "backgroundSound": "office",
+                "backchannelingEnabled": false,
+                "analysisPlan": {
+                  "structuredDataSchema": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "guests",
+                      "dateTime"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "guests": {
+                        "type": "number"
+                      },
+                      "dateTime": {
+                        "type": "string"
+                      },
+                      "preferences": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "backgroundDenoisingEnabled": false,
+                "messagePlan": {
+                  "idleMessages": [
+                    "Is there anything else you need help with?"
+                  ]
+                }
+              }
+            }
+          },
+          "webhookUrl": "https://primary-production-0ae1.up.railway.app/webhook/0119b32c-b257-4bcb-a78c-a4016640b844",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Airtable Trigger": [
+      {
+        "json": {
+          "id": "rec3wvUy8PlijIZYj",
+          "createdTime": "2024-12-01T17:47:18.000Z",
+          "fields": {
+            "Res ID": "RES98788",
+            "Date": "2024-12-01",
+            "Table ID": "T1",
+            "Guests": 2,
+            "Name": "Alexandra",
+            "Email": "alex@gmail.com",
+            "Status": "Confirmed",
+            "Notes": "Window table,",
+            "updatedTime": "2024-12-02T08:16:55.000Z",
+            "Time": "18:30"
+          }
+        }
+      }
+    ]
+  },
+  "repo_name": "n8nFlows21July2025",
+  "repo_owner": "mridulsood",
+  "repo_path": "https://github.com/mridulsood/n8nFlows21July2025.git",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-03-05T12:34:13.088Z",
+      "updatedAt": "2025-03-05T12:34:13.088Z",
+      "id": "fkruPgJMdxxdHpoM",
+      "name": "restaurant agent"
+    },
+    {
+      "createdAt": "2025-03-05T12:35:15.702Z",
+      "updatedAt": "2025-03-05T12:35:15.702Z",
+      "id": "opHV1VUqMEbaSh6D",
+      "name": "airtable"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-07-21T12:24:56.000Z",
+  "versionId": "d382927d-2495-46cd-af96-d39d8b20e264"
+}
