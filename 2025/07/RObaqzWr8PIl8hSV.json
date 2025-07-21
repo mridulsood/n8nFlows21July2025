@@ -479,17 +479,17 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "mode": "",
-          "value": "={{ $('Config').first().item.repo_owner }}"
+          "value": "={{ $('Config').item.json.repo_owner }}",
+          "mode": ""
         },
         "repository": {
           "__rl": true,
-          "mode": "",
-          "value": "={{ $('Config').first().item.repo_name }}"
+          "value": "={{ $('Config').item.json.repo_name }}",
+          "mode": ""
         },
-        "filePath": "={{ $('Config').first().item.repo_path }}{{ $json.subPath }}{{$('Execute Workflow Trigger').first().json.id}}.json",
+        "filePath": "={{ $json.subPath }}{{$('Config').first().json.id}}.json",
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
-        "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
+        "commitMessage": "={{$('Config').first().json.name}} ({{$json.github_status}})"
       },
       "id": "c342fd1f-b435-45e0-acc5-c6c887922b9b",
       "name": "Edit existing file",
@@ -609,7 +609,7 @@
           "value": "={{ $json.repo_name }}",
           "mode": ""
         },
-        "filePath": "={{ $json.repo_path }}{{ $('Config').first().json.createdAt.split('-')[0] }}/{{ $('Config').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
+        "filePath": "={{ $('Config').first().json.createdAt.split('-')[0] }}/{{ $('Config').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
@@ -677,6 +677,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-07-21T12:19:50.000Z",
-  "versionId": "0cc87846-d0e2-4bf0-95dc-b3a40901f356"
+  "updatedAt": "2025-07-21T12:32:09.000Z",
+  "versionId": "55596d0f-526a-4b65-8630-f1de529f06ec"
 }
