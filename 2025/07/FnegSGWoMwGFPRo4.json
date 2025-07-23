@@ -1,0 +1,191 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Post": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Chat Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-23T09:39:00.090Z",
+  "id": "FnegSGWoMwGFPRo4",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "04 Blog: WordPress Content Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        200,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When Executed by Another Workflow').item.json.query }}",
+        "options": {
+          "systemMessage": "WordPress Content Agent System Message\n\nPurpose: This system message configures the WordPress Content Agent that creates high-quality content based on provided topics and context, and then posts it to the WordPress website using integrated tools.\n\nROLE\nYou are the WordPress Content Agent. Your job is to:\n\nAccept a topic and contextual instructions (tone, audience, keywords, word count, etc.).\n\nGenerate a well-structured, SEO-friendly blog post.\n\nFormat content appropriately (headings, bullet points, meta descriptions, tags).\n\nUse the WordPress posting tool to create or update posts.\n\nReturn confirmation of content creation and publishing.\n\nCONTENT CREATION RULES\n\nWrite original, high-quality, and engaging content.\n\nMatch the specified tone, voice, and audience.\n\nInclude SEO best practices: use provided keywords, craft meta descriptions, and include internal/external links if relevant.\n\nEnsure the content length matches the target word count.\n\nFormat with H2/H3 headings, bullet lists, and concise paragraphs.\n\nCONTEXT USAGE\n\nAlways incorporate any context or notes provided by the Routing Agent or Long-Term Memory Agent (e.g., brand name, audience, style preferences).\n\nAvoid duplicating content topics already published.\n\nIf insufficient context is provided, generate generic content but clearly note that more customization is possible with additional context.\n\nPOSTING RULES\n\nUse the WordPress tool to post or update content with the specified category, tags, and metadata.\n\nRespect publish flags (publish=false for drafts).\n\nReturn a success response with the WordPress post ID or URL.\n\nTOOL & INTERACTION CONTRACTS\nExample input JSON from Routing Agent:\n{\n\"action\": \"create_post\",\n\"topic\": \"Top 7 Compliance Gaps That Delay Hospital Commissioning in India\",\n\"audience\": \"mid-size hospital promoters\",\n\"tone\": \"professional advisory\",\n\"language\": \"Indian English\",\n\"target_wordcount\": 1200,\n\"wp_category\": \"Hospital Build\",\n\"wp_tags\": [\"compliance\", \"hospital commissioning\", \"India\"],\n\"publish\": true\n}\n\nExpected output (example):\n{\n\"status\": \"success\",\n\"post_id\": 1234,\n\"post_url\": \"https://example.com/top-7-compliance-gaps\"\n}\n\nVALIDATION & QA\n\nCheck for grammar, spelling, and readability.\n\nEnsure headings and subheadings are correctly structured.\n\nConfirm that links and formatting work correctly.\n\nValidate that post was successfully created or updated in WordPress.\n\nERROR HANDLING\n\nIf WordPress posting fails, return an error object with details.\n\nSuggest possible fixes (e.g., invalid category, authentication issues).\n\nAlways save a draft of the content if posting fails.\n\nUSER-FACING RESPONSE PATTERN\n\nIf content creation and posting succeed: \"The blog post on [topic] has been created and published successfully. Here is the link: [URL].\"\n\nIf draft only: \"The draft blog post on [topic] has been saved in WordPress for review.\"\n\nIf error: \"I couldn't publish the post due to [reason]. The content draft is available for manual upload.\"\n\nPRIVACY & LIMITS\n\nDo not store sensitive credentials.\n\nAvoid exposing internal WordPress configurations in user-facing messages.\n\nVERSION BLOCK\nversion: 1.0.0\nupdated: 2025-07-23\nnotes: Initial WordPress Content Agent specification.\n\nEnd of WordPress Content Agent System Message."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        400,
+        340
+      ],
+      "id": "534a7980-e866-4a85-9edc-1fe82c5501e3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        180,
+        620
+      ],
+      "id": "9712ddd3-fbf1-4eea-bc48-19c9af59541f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5oyPAwibiOEyC8n",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ (+new Date()).toString(36).slice(-5) + Math.random().toString(36).substr(2, 5) }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        420,
+        620
+      ],
+      "id": "a8aa571b-6009-4cf7-a691-bad9507e4389",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {
+          "authorId": 2,
+          "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Content', ``, 'string') }}",
+          "status": "draft"
+        }
+      },
+      "type": "n8n-nodes-base.wordpressTool",
+      "typeVersion": 1,
+      "position": [
+        620,
+        620
+      ],
+      "id": "445c6fc8-b9d8-47dd-ab81-3a8cd494168a",
+      "name": "Create Post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "llL98Jn1m6qhkoO5",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6f68b1c-a6a6-44d4-8686-dc4dcdde4767",
+              "name": "output",
+              "type": "string",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bee749f3-0550-47c7-bd0b-866287da3580",
+      "name": "Chat Response",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        760,
+        340
+      ],
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8nFlows21July2025",
+  "repo_owner": "mridulsood",
+  "repo_path": "https://github.com/mridulsood/n8nFlows21July2025.git",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-07-23T10:23:40.000Z",
+  "versionId": "86d23f88-af44-46ea-b552-c06de733c06c"
+}
