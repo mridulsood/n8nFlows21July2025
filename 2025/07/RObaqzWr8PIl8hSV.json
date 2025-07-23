@@ -234,7 +234,7 @@
       "name": "On clicking 'execute'",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
-        480,
+        620,
         80
       ],
       "typeVersion": 1
@@ -264,8 +264,8 @@
       "name": "n8n",
       "type": "n8n-nodes-base.n8n",
       "position": [
-        880,
-        180
+        1040,
+        240
       ],
       "typeVersion": 1,
       "credentials": {
@@ -514,8 +514,8 @@
       "name": "Loop Over Items",
       "type": "n8n-nodes-base.splitInBatches",
       "position": [
-        1080,
-        180
+        1460,
+        240
       ],
       "typeVersion": 3
     },
@@ -534,7 +534,7 @@
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "position": [
-        480,
+        620,
         280
       ],
       "typeVersion": 1.2
@@ -661,8 +661,8 @@
       "name": "Config",
       "type": "n8n-nodes-base.set",
       "position": [
-        240,
-        840
+        80,
+        740
       ],
       "typeVersion": 3.4
     }
@@ -681,6 +681,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-07-21T12:40:15.000Z",
-  "versionId": "d35145df-6084-4805-94f6-34d78d9b5a8b"
+  "updatedAt": "2025-07-21T12:41:21.000Z",
+  "versionId": "c5ba8d9f-0061-4ba4-9f8c-adb8eb2eb09f"
 }
