@@ -1,0 +1,533 @@
+{
+  "active": false,
+  "connections": {
+    "Save Long Term Memories": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Long Term Memories": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Tools Agent": {
+      "main": [
+        [
+          {
+            "node": "Chat Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Notes": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Notes": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Long Term Memories",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Retrieve Notes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Long Term Memories": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Notes": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-23T08:40:45.550Z",
+  "id": "eM3oFOG21TXQIVp8",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "02 Blog: Long-Term Memory Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Retrieve Long Term Memories\nGoogle Docs",
+        "height": 380,
+        "width": 340,
+        "color": 4
+      },
+      "id": "168a5933-b156-402f-8e4d-a398c2aeaaba",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Save To Current Chat Memory (Optional)",
+        "height": 380,
+        "width": 280
+      },
+      "id": "5d043a08-6a68-4e6c-894d-8343051e8482",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1140,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Save Long Term Memories\nGoogle Docs",
+        "height": 380,
+        "width": 280,
+        "color": 4
+      },
+      "id": "1704b54f-81b0-41d0-a5ee-6db7a60c4b07",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1460,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6f68b1c-a6a6-44d4-8686-dc4dcdde4767",
+              "name": "output",
+              "type": "string",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6535b9b4-2947-4809-b340-ea29cf2ccd97",
+      "name": "Chat Response",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1540,
+        320
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Save Memory",
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={ \n  \"memory\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
+            }
+          ]
+        }
+      },
+      "id": "e43ca6af-e6ee-430e-9e43-5a95690fb970",
+      "name": "Save Long Term Memories",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        1620,
+        660
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0"
+      },
+      "id": "451c546c-2103-4039-bb73-0c136c3099b8",
+      "name": "Retrieve Long Term Memories",
+      "type": "n8n-nodes-base.googleDocs",
+      "position": [
+        120,
+        140
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## LLM",
+        "height": 380,
+        "width": 280,
+        "color": 3
+      },
+      "id": "453378c7-b578-4ac6-add2-acdc4c050fad",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        820,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## AI AGENT with Long Term Memory & Note Storage",
+        "height": 780,
+        "width": 1320,
+        "color": 5
+      },
+      "id": "01530e59-0475-4b76-93d2-310fd277f4a0",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        780,
+        220
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When Executed by Another Workflow').item.json.query }}",
+        "options": {
+          "systemMessage": "=Long-Term Memory Agent System Message (v3 – Correct Retrieval Logic)\n\nPurpose:\nThis system message defines a Long-Term Memory Agent that can SAVE and RETRIEVE context effectively. The agent must always attempt to retrieve notes and memories when tools are available, instead of defaulting to fallback responses.\n\nROLE\nYou are the Long-Term Memory Agent (LTM Agent).\nYour responsibilities:\n\nSave important, long-lived information as Memories.\n\nSave task-specific or operational details as Notes.\n\nRetrieve and return Memories and Notes when requested.\n\nMerge and summarize data for routing or downstream agents.\n\nAvoid unnecessary fallback when retrieval tools exist.\n\nDATA TYPES\n• Memory: Long-term, summarized attributes (goals, brand, preferences).\n• Note: Short-term, operational details (IDs, categories, topic lists).\n\nTOOLS\nThe following tools are available:\n• Save Memory – Store summarized long-term info.\n• Save Note – Store operational/task notes.\n• Get Long Term Memories – Retrieve stored memories.\n• Get Notes – Retrieve stored notes.\n\nAlways attempt to call Get Long Term Memories and Get Notes if available before returning a fallback response.\n\nEXECUTION FLOW\nStep 0 – Parse Input Payload:\ninput_text (string), request_type (e.g., \"retrieve\"), filters, preloaded_memories, preloaded_notes.\n\nStep 1 – Retrieve Context:\nA. If preloaded_memories/notes are provided, use them.\nB. If retrieval tools are available, call Get Long Term Memories and Get Notes to fetch context.\nC. Only if no tools and no data are present, return empty context with status=\"ok_no_data\".\n\nStep 2 – Save New Data:\nIf request_type includes save_memory or save_note, store summarized data via the appropriate tool.\n\nStep 3 – Merge & Summarize:\nCombine retrieved/preloaded data, deduplicate, and generate a concise summary (brand, audience, goals, etc.).\n\nStep 4 – Return JSON Response:\n{\n\"memories\": [...],\n\"notes\": [...],\n\"summary\": { ... },\n\"status\": \"ok\"\n}\n\nERROR HANDLING\n\nIf tool calls fail, include partial data and a warning.\n\nNever block output due to missing tools; fallback to status=\"ok_no_data\" only if no data is available.\n\nKEY RULES\n\nAlways attempt retrieval if tools are present.\n\nUse preloaded data if provided.\n\nOnly fallback when neither retrieval tools nor preloaded data exist.\n\nRespond with structured JSON first, optional human-readable summary second.\n\nQUICK COPY VERSION\nROLE: Long-Term Memory Agent.\nTOOLS: Save Memory, Save Note, Get Long Term Memories, Get Notes.\nFLOW: Parse → Retrieve (preloaded > tools) → Save (if requested) → Merge → Return JSON.\nOUTPUT: {memories:[], notes:[], summary:{}, status:\"ok\"}.\n\nVERSION BLOCK\nversion: 3.0.0\nupdated: 2025-07-23\nchange: Enhanced retrieval logic to ensure tools are always utilized before fallback.\n\nEnd of Long-Term Memory Agent System Message."
+        }
+      },
+      "id": "e0d0f054-b218-4dde-ae71-83cc98310a09",
+      "name": "AI Tools Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1160,
+        320
+      ],
+      "typeVersion": 1.7,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "content": "## Save Notes\nGoogle Docs",
+        "height": 380,
+        "width": 280,
+        "color": 4
+      },
+      "id": "7262bebb-ea8f-4b3b-acae-5a1219588896",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1780,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Save Notes",
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={ \n  \"note\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
+            }
+          ]
+        }
+      },
+      "id": "931716c1-572e-4e88-825f-1c82c5264d22",
+      "name": "Save Notes",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        1940,
+        640
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Retrieve Notes\nGoogle Docs",
+        "height": 380,
+        "width": 340,
+        "color": 4
+      },
+      "id": "c25fbd8c-3cb5-4ead-adf8-99bf177f42ab",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        400
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0"
+      },
+      "id": "871cb841-3411-4ade-89ab-b6f97abe8906",
+      "name": "Retrieve Notes",
+      "type": "n8n-nodes-base.googleDocs",
+      "position": [
+        120,
+        540
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "89dd8864-d4df-475c-a222-702730d277e4",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "position": [
+        620,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "dd5f9fc1-e884-412f-94d1-7c5da700d516",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        440,
+        320
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -480,
+        140
+      ],
+      "id": "3dfa1de3-79a8-423e-ad9c-12014b70c4a2",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        920,
+        680
+      ],
+      "id": "e4ecd387-6496-455c-9e53-3fbdca7fa00f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5oyPAwibiOEyC8n",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ (+new Date()).toString(36).slice(-5) + Math.random().toString(36).substr(2, 5) }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1240,
+        680
+      ],
+      "id": "61ad7bf1-eb4d-4620-b358-11e2e9f72593",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Get Memory",
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        1480,
+        780
+      ],
+      "id": "acc43073-c2e9-424a-8009-7221f489685c",
+      "name": "Get Long Term Memories",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Get Notes",
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0"
+      },
+      "id": "aa0df53d-9e2b-4627-a6cd-734f3a50c8ff",
+      "name": "Get Notes",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        1800,
+        800
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8nFlows21July2025",
+  "repo_owner": "mridulsood",
+  "repo_path": "https://github.com/mridulsood/n8nFlows21July2025.git",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-07-23T10:10:33.000Z",
+  "versionId": "94ba9654-fc91-4011-a864-429582c0a4b9"
+}
