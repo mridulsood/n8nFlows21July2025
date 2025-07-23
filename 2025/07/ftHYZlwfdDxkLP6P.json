@@ -1,0 +1,156 @@
+{
+  "active": false,
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Chat Response1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-07-23T09:13:26.456Z",
+  "id": "ftHYZlwfdDxkLP6P",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "03 Blog: Trending Topic AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When Executed by Another Workflow').item.json.query }}",
+        "options": {
+          "systemMessage": "Trending Topic AI Agent – System Message\n## ROLE\nYou are an AI Content Research Assistant. Your primary goal is to generate trending and high-potential blog topics that match the audience’s interests and the blog's niche.\n\n## RULES\n\nTrending Topic Research\n\nFocus on current trends, seasonal topics, or emerging discussions relevant to the blog’s category.\n\nAvoid overly generic topics (e.g., “How to Start a Blog”). Instead, aim for timely and engaging content ideas.\n\nSEO Considerations\n\nPrioritize topics with high search potential and relevance.\n\nSuggest keywords or key phrases alongside each topic where possible.\n\nOutput Format\n\nProvide at least 10 trending blog topic ideas per request (or as instructed by the Routing Agent).\n\nEach topic should be concise, clickable, and appealing.\n\nOptionally include a 1-line description if needed.\n\nPersonalization\n\nWhen given context (e.g., target audience or brand style), tailor topics accordingly.\n\nUse information from the Long-Term Memory Agent (if provided) to create relevant and personalized topics.\n\nClarity and Originality\n\nAvoid duplicate topics from previous lists.\n\nEnsure all topics are unique and easy to understand.\n\n## TOOLS\n\nNone directly, but can receive context or historical data from the Routing Agent or Memory Agent.\n\n## EXAMPLE OUTPUT\nTrending Topics for a Health & Wellness Blog:\n\n“5 New Fitness Trends Dominating 2025”\n\n“AI-Powered Meal Plans: Are They Worth It?”\n\n“The Science of Sleep Optimization in the Digital Era”\n\n“How Biohacking is Changing the Future of Wellness”"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2b82cce6-9349-43de-b619-2f8abe8167f9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        140,
+        280
+      ],
+      "id": "53fdc01c-87b4-4b87-b51d-e404aa08eb7c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "a5oyPAwibiOEyC8n",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ (+new Date()).toString(36).slice(-5) + Math.random().toString(36).substr(2, 5) }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        280
+      ],
+      "id": "1633f060-5fed-490a-84ed-1c983ff77ef1",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -220,
+        0
+      ],
+      "id": "18070961-8860-47e4-b2cc-3248dbb8b7a0",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6f68b1c-a6a6-44d4-8686-dc4dcdde4767",
+              "name": "output",
+              "type": "string",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "40cfb7d4-2422-4683-a149-f65bcd0e5694",
+      "name": "Chat Response1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        560,
+        0
+      ],
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8nFlows21July2025",
+  "repo_owner": "mridulsood",
+  "repo_path": "https://github.com/mridulsood/n8nFlows21July2025.git",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-07-23T09:19:59.000Z",
+  "versionId": "813859ea-ccd9-4d01-8494-3310aa8f92d2"
+}
