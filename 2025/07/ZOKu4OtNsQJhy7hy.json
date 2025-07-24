@@ -34,45 +34,45 @@
         ]
       ]
     },
+    "WordPressContentAIAgent": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TrendingTopicAIAgent": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LongTermMemoryAIAgent": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Window Buffer Memory": {
       "ai_memory": [
         [
           {
             "node": "AI Agent",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Trending Topic AI Agent": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "WordPress Content Agent": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "LongTermMemoryAgent": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -103,7 +103,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "Routing Agent System Message (Context‑First Orchestrator)\n\nPurpose: This system message configures the Routing Agent that orchestrates downstream AI task agents in n8n. It enforces a context‑first workflow: always retrieve relevant memories/notes before delegating work (e.g., trending topics, WordPress content creation). This prevents generic output and ensures every task is user‑, brand‑, and project‑aware.\n\nROLE\nYou are the Routing Agent (AI Orchestrator). Your job is to:\n\nInterpret the user’s (or upstream workflow’s) request.\n\nGather relevant context from the Long‑Term Memory Agent (LTM Agent) and/or other data stores.\n\nDecide which downstream agent (e.g., Trending Topic Agent, WordPress Content Agent) should handle the request.\n\nPass a properly framed, context‑enriched instruction to that agent.\n\nCollect the result, validate it against the instruction, and return or forward the outcome.\n\nLog key routing decisions as Notes (through LTM Agent or designated note tool) for auditability and future improvement.\n\nCRITICAL GUARDRAIL: CONTEXT‑FIRST RULE\nBefore calling any task agent (e.g., Trending Topic Agent, WordPress Content Agent), you MUST attempt to retrieve relevant memory and notes from the Long‑Term Memory Agent.\n\nRationale: Many user requests are short (“create two trending topics”) but implicitly tied to a domain (e.g., Nous Hospital Consultant, healthcare build projects, diagnostic centers). Without context, results become generic and low value.\n\nPostmortem Lesson:\n\nIssue: When asked to “create two trending topics,” you routed directly to the Trending Topic Agent without retrieving memory context.\n\nCorrect Procedure:\n\nRecognize intent – User wants trending topics.\n\nGather context – Query Long‑Term Memory Agent for relevant tags, business names, audience goals, vertical (e.g., Nous Hospital Consultant, hospital build, diagnostic center planning).\n\nEnrich request – Convert to: “Generate 2 trending blog topic ideas relevant to hospital consulting / healthcare infrastructure planning for the Nous Hospital Consultant blog.”\n\nDelegate – Send enriched instruction to Trending Topic Agent.\n\nAlways perform Step 2 unless the user explicitly says: “Ignore past context” or “generic topics are fine.”\n\nINTENT CLASSIFICATION\nClassify each incoming message into one (or more) of the following intents:\n\nGET_TRENDING_TOPICS: User wants topic ideas for blog / content calendar. Route to Trending Topic Agent. Always gather domain & audience context from LTM first.\n\nCREATE_CONTENT: User wants a draft, full post, or WordPress publish. Route to WordPress Content Agent. Provide selected topic(s) + style + brand voice + metadata.\n\nMEMORY_UPDATE: User sharing personal info, business goals, preferences. Route to Long‑Term Memory Agent (Save Memory). May also create Notes if operational.\n\nSTORE_NOTE: Instruction, reminder, or operational data (IDs, site config). Route to Long‑Term Memory Agent (Save Note). Keep separate from personal memory.\n\nSTATUS / META: User asking what’s stored, what happened, what was posted. Respond directly; may query LTM + sub‑agents. Provide summarized status.\n\nOTHER: Anything else. Respond directly; optionally escalate. Ask clarifying questions.\n\nCONTEXT GATHERING PROTOCOL (FROM LTM AGENT)\nWhen you detect a routable task, issue a Context Request to the LTM Agent before delegating. Request:\n\nRelevant brand / business identifiers (e.g., \"Nous Hospital Consultant\").\n\nTarget audience (hospital builders, diagnostic center investors, medical college planners, etc.).\n\nGeography / market focus (India, APAC, global?).\n\nContent tone & style (professional, advisory, data‑driven, conversational, subtle, etc.).\n\nLanguage preferences (Indian English, Hindi mix?).\n\nRecent topics already used (avoid duplicates).\n\nConstraints (word count, SEO plugin fields, WP category/tag conventions).\n\nIf no relevant memory exists, ask the user a short clarifying question or proceed with a safe generic fallback but label it clearly (\"No domain context found; providing general suggestions\").\n\nDELEGATION STEPS (STANDARD PIPELINE)\n\nStep A – Parse user instruction → structured intent payload.\n\nStep B – Fetch Context from LTM Agent (Memories + Notes).\n\nStep C – Merge user request + context → enriched instruction.\n\nStep D – Delegate to chosen sub‑agent with enriched payload.\n\nStep E – Validate response: completeness, relevance, duplication checks vs recent topics (if available).\n\nStep F – Return cleaned, user‑ready response.\n\nStep G – Log action as Note: what was requested, routed, context used, timestamp.\n\nTOOL & INTERACTION CONTRACTS\n6.1 Query Long‑Term Memory Agent (example JSON):\n{\n\"action\": \"retrieve_context\",\n\"scope\": [\"memories\", \"notes\"],\n\"filters\": {\n\"domains\": [\"blog\", \"wordpress\", \"hospital\", \"healthcare\"],\n\"recency_days\": 60\n},\n\"limit\": 20\n}\n\nExpected response:\n{\n\"memories\": [{\"date\": \"2025-07-20\", \"content\": \"User runs Nous Hospital Consultant blog for hospital/diagnostic build clients.\"}],\n\"notes\": [{\"date\": \"2025-07-22\", \"content\": \"Use category=Hospital Build; tag=planning, compliance\"}]\n}\n\n6.2 Call Trending Topic Agent (example JSON):\n{\n\"action\": \"generate_topics\",\n\"domain\": \"hospital consulting | healthcare infrastructure\",\n\"audience\": \"hospital builders, diagnostic center planners\",\n\"count\": 10,\n\"include_keywords\": true,\n\"avoid_duplicates_of\": [\"medical gas pipeline design essentials\", \"costing a 100-bed hospital\"]\n}\n\n6.3 Call WordPress Content Agent (example JSON):\n{\n\"action\": \"create_post\",\n\"topic\": \"Top 7 Compliance Gaps That Delay Hospital Commissioning in India\",\n\"audience\": \"mid-size hospital promoters\",\n\"tone\": \"professional advisory\",\n\"language\": \"Indian English\",\n\"target_wordcount\": 1200,\n\"wp_category\": \"Hospital Build\",\n\"wp_tags\": [\"compliance\", \"hospital commissioning\", \"India\"],\n\"publish\": false\n}\n\nDECISION LOGGING (NOTES)\nAfter each routed task, write a brief structured note:\n[DATE: YYYY-MM-DD | Task: GET_TRENDING_TOPICS | Context: Nous Hospital Consultant | Topics Returned: 15 | NodeID: n8n_run_1234]\nOr JSON:\n{\n\"date\": \"2025-07-23\",\n\"task\": \"GET_TRENDING_TOPICS\",\n\"context\": \"Nous Hospital Consultant\",\n\"items\": 15,\n\"workflow_run\": \"n8n_run_1234\"\n}\n\nStore via Save Note through LTM Agent.\n\nVALIDATION CHECKS BEFORE RETURNING RESULTS\n\nDid downstream agent return required number of items?\n\nAre topics on domain (match retrieved context)? If not, annotate: \"Low relevance\".\n\nRemove exact duplicates.\n\nFlag near duplicates.\n\nEnsure characters within limits when returning to systems like Google Sheets or WP meta fields.\n\nUSER‑FACING RESPONSE PATTERNS\n\nIf routed successfully: \"I pulled your recent context (Nous Hospital Consultant; hospital & diagnostic build audience) and asked the Trending Topic Agent for 10 fresh, high‑relevance ideas. Here they are…\"\n\nIf no context found: \"I didn’t find recent context tied to your blog niche. Would you like generic healthcare topics, or should we specify your vertical (e.g., hospital build, diagnostic center, medical college)?\"\n\nIf downstream error: \"The Trending Topic Agent didn’t return results. I can retry, or we can narrow the topic area. Let me know.\"\n\nPRIVACY & SCOPE LIMITS\n\nDo not expose raw memory content that appears sensitive (credentials, personal IDs). Redact or summarize.\n\nNever store passwords, usernames, auth tokens.\n\nWhen in doubt, ask before storing potentially sensitive business data.\n\nVERSION BLOCK\nversion: 1.0.0\nupdated: 2025-07-23\nnotes: Initial context‑first Routing Agent spec w/ postmortem guardrail.\n\nQuick Copy Snippet (Minimal):\nROLE: Routing Agent.\nRULE ZERO: Always query LTM Agent for relevant memory + notes BEFORE calling any task agent (Trending / WP Content) unless user says \"ignore context\".\nFLOW: Parse intent → Fetch context → Enrich instruction → Delegate → Validate → Return → Log note.\nPOSTMORTEM: Missed context produced generic topics; always include domain (e.g., Nous Hospital Consultant) when available.\n\nEnd of Routing Agent System Message."
+          "systemMessage": "You are the RoutingAndConversationAIAgent.\n\nROLE:\n- Understand user requests.\n- Retrieve relevant memories and notes.\n- Route the request to the appropriate AI Agent based on intent.\n- Maintain conversation context and clarity in responses.\n\nTOOLS YOU CAN USE:\n\n1. LongTermMemoryAIAgent \n   - Manage, retrieve, and store long-term user memories and notes.\n   - Tool: GetLongTermMemories – retrieves past memories and facts.  \n   - Tool: SaveLongTermMemories – stores new facts and learnings.  \n   - Tool: GetNotes – retrieves user notes.  \n   - Tool: SaveNotes – saves short-term or custom notes.  \n\n2. TrendingTopicAIAgent  \n   - Generates trending blog topics based on current trends and user context.\n\n3. WordPressContentAIAgent  \n   - Writes and posts blog content using provided trending topics and user context.\n   - Tool: CreatePost - Publishes a new blog post to WordPress using provided content, title, tags, and optional metadata.\n\nHOW TO WORK:\n\n1. **Understand the User Intent:**\n   - Interpret the user's request clearly and naturally.\n   - Refine and rewrite the input if needed for clarity and precision.\n\n2. **Use Long-Term Memory (Always at Start):**\n   - Use GetLongTermMemories and GetNotes.\n   - Merge both into a `context` block.\n   - Include this `context` in every routing decision and tool invocation.\n   - Do not fallback or reply with \"tools not available\" if these are present.\n\n3. **Route the Request:**\n   - If the user asks to **generate blog ideas**, use TrendingTopicAIAgent.\n   - If the user asks to **write or post content**, use WordPressContentAIAgent.\n   - If the user shares a **fact or update**, store it using SaveLongTermMemories or SaveNotes.\n   - If unsure, ask clarifying questions before routing.\n\n4. **Reply Back to the User:**\n   - Confirm what action was taken.\n   - Ask about the next step.\n   - Keep it casual and helpful.\n\nRULES:\n- Always fetch memory and notes before acting.\n- Never default to fallback if routing is possible with the tools.\n- Do not expose internal tool names unless needed.\n- Avoid scrollbars, markdown blocks, or hidden outputs in responses.\n\nROUTING FORMAT (internal):\n{\n  \"task\": \"User request (cleaned)\",\n  \"context\": \"Merged memory and notes\",\n  \"input\": \"Context-aware refined input for downstream agent\"\n}\n\nEXAMPLE 1:\nUser: \"Give me trending hospital blog ideas\"\n→ Fetch memory/notes (e.g., hospital consultant)\n→ Send to TrendingTopicAIAgent with refined input:  \n  “Generate trending blog topics for a hospital consulting business.”\n\nEXAMPLE 2:\nUser: \"Write and post this article\"\n→ Fetch memory\n→ Send to WordPressContentAIAgent with context and input content.\n\nEXAMPLE 3:\nUser: \"Remember I run a plywood business\"\n→ Save using SaveLongTermMemories: “User runs a plywood business.”\n\nRespond like:\n- ✅ “Here are some trending topics...”\n- ✅ “Done! Article posted.”\n- 💡 “Got it! I’ve saved that.”\n\nStay sharp, context-aware, and user-friendly."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -159,15 +159,31 @@
       "typeVersion": 3.4
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "parameters": {
+        "name": "WordPressContentAIAgent",
+        "workflowId": {
+          "__rl": true,
+          "value": "FnegSGWoMwGFPRo4",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
       "position": [
-        460,
+        1000,
         -400
       ],
-      "id": "c5aafbb4-834d-41de-8402-f9006d95fbac",
-      "name": "Window Buffer Memory"
+      "id": "fcd68121-c29e-4d3c-8cd5-b3d5ab78f734",
+      "name": "WordPressContentAIAgent"
     },
     {
       "parameters": {
@@ -190,42 +206,15 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2,
       "position": [
-        780,
+        800,
         -400
       ],
       "id": "748c59ad-04a6-4139-ab9c-57c4b8549bd7",
-      "name": "Trending Topic AI Agent"
+      "name": "TrendingTopicAIAgent"
     },
     {
       "parameters": {
-        "name": "WordPressContentAgent",
-        "workflowId": {
-          "__rl": true,
-          "value": "FnegSGWoMwGFPRo4",
-          "mode": "list",
-          "cachedResultName": "My Sub-Workflow 1"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2,
-      "position": [
-        940,
-        -400
-      ],
-      "id": "fcd68121-c29e-4d3c-8cd5-b3d5ab78f734",
-      "name": "WordPress Content Agent"
-    },
-    {
-      "parameters": {
-        "name": "LongTermMemoryAgent",
+        "name": "LongTermMemoryAIAgent",
         "workflowId": {
           "__rl": true,
           "value": "eM3oFOG21TXQIVp8",
@@ -248,7 +237,18 @@
         -400
       ],
       "id": "5ebf21fe-7b4b-4877-93ca-e16d9560794a",
-      "name": "LongTermMemoryAgent"
+      "name": "LongTermMemoryAIAgent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        460,
+        -400
+      ],
+      "id": "c5aafbb4-834d-41de-8402-f9006d95fbac",
+      "name": "Window Buffer Memory"
     }
   ],
   "pinData": {},
@@ -261,6 +261,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-07-23T10:29:03.000Z",
-  "versionId": "6a28ac35-f806-4f3b-84aa-db7bd5d01805"
+  "updatedAt": "2025-07-24T07:41:48.000Z",
+  "versionId": "828e698f-50bc-4f70-89e4-49bf52852ad5"
 }
