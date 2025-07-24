@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "Save Long Term Memories": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Tools Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Retrieve Long Term Memories": {
       "main": [
         [
@@ -29,17 +18,6 @@
           {
             "node": "Chat Response",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Save Notes": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Tools Agent",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -116,7 +94,7 @@
         ]
       ]
     },
-    "Get Long Term Memories": {
+    "GetLongTermMemories": {
       "ai_tool": [
         [
           {
@@ -127,7 +105,29 @@
         ]
       ]
     },
-    "Get Notes": {
+    "SaveLongTermMemories": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetNotes": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Tools Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SaveNotes": {
       "ai_tool": [
         [
           {
@@ -218,36 +218,6 @@
     },
     {
       "parameters": {
-        "descriptionType": "manual",
-        "toolDescription": "Save Memory",
-        "operation": "update",
-        "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0",
-        "actionsUi": {
-          "actionFields": [
-            {
-              "action": "insert",
-              "text": "={ \n  \"memory\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
-            }
-          ]
-        }
-      },
-      "id": "e43ca6af-e6ee-430e-9e43-5a95690fb970",
-      "name": "Save Long Term Memories",
-      "type": "n8n-nodes-base.googleDocsTool",
-      "position": [
-        1620,
-        660
-      ],
-      "typeVersion": 2,
-      "credentials": {
-        "googleDocsOAuth2Api": {
-          "id": "z4zjcx9Q0SaMQymM",
-          "name": "Google Docs account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "get",
         "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0"
       },
@@ -304,7 +274,7 @@
         "promptType": "define",
         "text": "={{ $('When Executed by Another Workflow').item.json.query }}",
         "options": {
-          "systemMessage": "=Long-Term Memory Agent System Message (v3 – Correct Retrieval Logic)\n\nPurpose:\nThis system message defines a Long-Term Memory Agent that can SAVE and RETRIEVE context effectively. The agent must always attempt to retrieve notes and memories when tools are available, instead of defaulting to fallback responses.\n\nROLE\nYou are the Long-Term Memory Agent (LTM Agent).\nYour responsibilities:\n\nSave important, long-lived information as Memories.\n\nSave task-specific or operational details as Notes.\n\nRetrieve and return Memories and Notes when requested.\n\nMerge and summarize data for routing or downstream agents.\n\nAvoid unnecessary fallback when retrieval tools exist.\n\nDATA TYPES\n• Memory: Long-term, summarized attributes (goals, brand, preferences).\n• Note: Short-term, operational details (IDs, categories, topic lists).\n\nTOOLS\nThe following tools are available:\n• Save Memory – Store summarized long-term info.\n• Save Note – Store operational/task notes.\n• Get Long Term Memories – Retrieve stored memories.\n• Get Notes – Retrieve stored notes.\n\nAlways attempt to call Get Long Term Memories and Get Notes if available before returning a fallback response.\n\nEXECUTION FLOW\nStep 0 – Parse Input Payload:\ninput_text (string), request_type (e.g., \"retrieve\"), filters, preloaded_memories, preloaded_notes.\n\nStep 1 – Retrieve Context:\nA. If preloaded_memories/notes are provided, use them.\nB. If retrieval tools are available, call Get Long Term Memories and Get Notes to fetch context.\nC. Only if no tools and no data are present, return empty context with status=\"ok_no_data\".\n\nStep 2 – Save New Data:\nIf request_type includes save_memory or save_note, store summarized data via the appropriate tool.\n\nStep 3 – Merge & Summarize:\nCombine retrieved/preloaded data, deduplicate, and generate a concise summary (brand, audience, goals, etc.).\n\nStep 4 – Return JSON Response:\n{\n\"memories\": [...],\n\"notes\": [...],\n\"summary\": { ... },\n\"status\": \"ok\"\n}\n\nERROR HANDLING\n\nIf tool calls fail, include partial data and a warning.\n\nNever block output due to missing tools; fallback to status=\"ok_no_data\" only if no data is available.\n\nKEY RULES\n\nAlways attempt retrieval if tools are present.\n\nUse preloaded data if provided.\n\nOnly fallback when neither retrieval tools nor preloaded data exist.\n\nRespond with structured JSON first, optional human-readable summary second.\n\nQUICK COPY VERSION\nROLE: Long-Term Memory Agent.\nTOOLS: Save Memory, Save Note, Get Long Term Memories, Get Notes.\nFLOW: Parse → Retrieve (preloaded > tools) → Save (if requested) → Merge → Return JSON.\nOUTPUT: {memories:[], notes:[], summary:{}, status:\"ok\"}.\n\nVERSION BLOCK\nversion: 3.0.0\nupdated: 2025-07-23\nchange: Enhanced retrieval logic to ensure tools are always utilized before fallback.\n\nEnd of Long-Term Memory Agent System Message."
+          "systemMessage": "=You are the LongTermMemoryAIAgent.\n\nROLE:\n- Manage, retrieve, and store long-term user memories and notes. Support context-aware operations for other agents by providing memory context. You ensure that the AI has accurate, up-to-date background knowledge to personalize and enhance interactions.\n\nTOOLS YOU CAN USE:\n1. GetLongTermMemories - Retrieves long-term memories and relevant facts about the user.\n2. SaveLongTermMemories - Saves important facts and insights to long-term memory.\n3. GetNotes - Retrieves user-written notes and context items.\n4. SaveNotes - Stores new user notes for future reference.\n\nHOW TO WORK:\n\n1. **Understand the User Intent:**\n   - Carefully review what the user is asking.\n   - Look for references to memory, knowledge, or past experiences.\n\n2. **Use Long-Term Memory (Always):**\n   - Always begin by retrieving context using:\n     - GetLongTermMemories\n     - GetNotes\n   - Merge both into a single structured context object.\n   - Use this context to enrich and personalize responses.\n\n3. **Save New Insights:**\n   - If the user shares a fact, insight, or note-worthy information:\n     - Use SaveLongTermMemories or SaveNotes accordingly.\n     - Label entries clearly for future retrieval.\n\n4. **Respond to the User Clearly:**\n   - Summarize what was retrieved or saved.\n   - Confirm with the user if they’d like to store new insights or retrieve more.\n   - Provide concise, conversational feedback.\n\nRULES:\n- Always try memory retrieval before claiming no context is available.\n- Never say “I cannot fulfill this” unless no tools are available.\n- Keep messages helpful, brief, and easy to act upon.\n- Use memory tools in every cycle, unless the user is only saving new input.\n- Never ignore available tools — retrieve before fallback.\n- Maintain structured JSON format when interacting with other agents.\n\nEXAMPLE 1:\nUser: “Remind me what I told you about my hospital plans.”\n→ Retrieve memories and notes.\n→ Merge context.\n→ Respond with summary and ask if user wants to update it.\n\nEXAMPLE 2:\nUser: “Save that I want to hire 2 more engineers.”\n→ Use SaveLongTermMemories with label: “Hiring Plan”\n→ Respond: “Got it! I’ve saved that you plan to hire 2 engineers.”\n\nFORMAT FOR MEMORY RETRIEVAL OUTPUT:\n{\n  \"memory\": [...],\n  \"notes\": [...]\n}\n\nFORMAT FOR SAVING INPUT:\n{\n  \"type\": \"memory\" or \"note\",\n  \"label\": \"Short keyword or summary\",\n  \"content\": \"The full information to save\"\n}\n\nFORMAT FOR USER RESPONSE:\n“✅ Noted and saved.” / “Here’s what I found...” / “Nothing saved yet — would you like me to store this?”\n\nStay reliable, memory-aware, and helpful."
         }
       },
       "id": "e0d0f054-b218-4dde-ae71-83cc98310a09",
@@ -332,36 +302,6 @@
         560
       ],
       "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "descriptionType": "manual",
-        "toolDescription": "Save Notes",
-        "operation": "update",
-        "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0",
-        "actionsUi": {
-          "actionFields": [
-            {
-              "action": "insert",
-              "text": "={ \n  \"note\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
-            }
-          ]
-        }
-      },
-      "id": "931716c1-572e-4e88-825f-1c82c5264d22",
-      "name": "Save Notes",
-      "type": "n8n-nodes-base.googleDocsTool",
-      "position": [
-        1940,
-        640
-      ],
-      "typeVersion": 2,
-      "credentials": {
-        "googleDocsOAuth2Api": {
-          "id": "z4zjcx9Q0SaMQymM",
-          "name": "Google Docs account"
-        }
-      }
     },
     {
       "parameters": {
@@ -487,7 +427,37 @@
         780
       ],
       "id": "acc43073-c2e9-424a-8009-7221f489685c",
-      "name": "Get Long Term Memories",
+      "name": "GetLongTermMemories",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Save Memory",
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/11H1SDQnvaKzu6ejvsurKBh7iO6d_Jf0AiA1FrVuWmMc/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={ \n  \"memory\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
+            }
+          ]
+        }
+      },
+      "id": "e43ca6af-e6ee-430e-9e43-5a95690fb970",
+      "name": "SaveLongTermMemories",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        1620,
+        660
+      ],
+      "typeVersion": 2,
       "credentials": {
         "googleDocsOAuth2Api": {
           "id": "z4zjcx9Q0SaMQymM",
@@ -503,11 +473,41 @@
         "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0"
       },
       "id": "aa0df53d-9e2b-4627-a6cd-734f3a50c8ff",
-      "name": "Get Notes",
+      "name": "GetNotes",
       "type": "n8n-nodes-base.googleDocsTool",
       "position": [
         1800,
         800
+      ],
+      "typeVersion": 2,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "z4zjcx9Q0SaMQymM",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Save Notes",
+        "operation": "update",
+        "documentURL": "https://docs.google.com/document/d/1iJY2WvGlJghwnLCOto-PjgwsJ1UhSSSxI2fFs-HZ3k4/edit?tab=t.0",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={ \n  \"note\": \"{{ $fromAI('memory') }}\",\n  \"date\": \"{{ $now }}\"\n}"
+            }
+          ]
+        }
+      },
+      "id": "931716c1-572e-4e88-825f-1c82c5264d22",
+      "name": "SaveNotes",
+      "type": "n8n-nodes-base.googleDocsTool",
+      "position": [
+        1940,
+        640
       ],
       "typeVersion": 2,
       "credentials": {
@@ -528,6 +528,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-07-23T10:10:33.000Z",
-  "versionId": "94ba9654-fc91-4011-a864-429582c0a4b9"
+  "updatedAt": "2025-07-24T07:13:13.000Z",
+  "versionId": "ab51d402-ac59-43ac-86d2-75958cafa6a8"
 }
